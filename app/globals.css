@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   ML Salón de Eventos — Sistema visual (Tailwind v4, CSS-first)
+   Concepto: "Editorial nocturno" — marfil editorial con capítulos
+   en carbón. Detalles metálicos mínimos, violeta como eco limitado.
+   ============================================================ */
+
+@theme {
+  /* Paleta */
+  --color-ink: #16130f;
+  --color-carbon: #131110;
+  --color-carbon-2: #1c1917;
+  --color-ivory: #f5f2ec;
+  --color-ivory-2: #eae4d9;
+  --color-gold: #b08d57;
+  --color-violet: #532e91;
+  --color-violet-soft: #a98fd0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Tipografías: variables definidas por next/font en app/layout.tsx */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: #532e91; /* violet */
+    color: #f5f2ec; /* ivory */
+  }
+
+  :focus-visible {
+    outline: 2px solid #b08d57; /* gold */
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Grano fotográfico sutil (decorativo) */
+.grain {
+  position: relative;
+  isolation: isolate;
 }
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='grano'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23grano)' opacity='0.35'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Navegación horizontal desplazable sin scrollbar visible (Eventos). */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   Header — barra de contraste sobre el hero.
+   Carbón casi sólido (rgba(15,13,12,0.92)) + blur moderado:
+   el área del header tiene identidad propia; el hero sigue
+   visible por debajo de la línea inferior.
+   ============================================================ */
+.site-header-scrim {
+  background: rgba(15, 13, 12, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
