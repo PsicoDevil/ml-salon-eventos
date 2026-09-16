@@ -18,8 +18,8 @@ import { cn } from "@/lib/cn";
  * blur moderado (site-header-scrim); al hacer scroll: carbón sólido.
  * Misma barra, dos estados. Active state editorial: hairline dorada
  * bajo la sección visible (IntersectionObserver; /galeria via
- * pathname). El CTA principal degrada a teléfono mientras el canal de
- * WhatsApp no esté confirmado (ver lib/whatsapp.ts).
+ * pathname). El CTA principal apunta al canal de WhatsApp confirmado
+ * (ver lib/whatsapp.ts).
  */
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);

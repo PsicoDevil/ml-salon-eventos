@@ -29,11 +29,6 @@ export const site = {
       phoneDisplay: "0383 478-1774",
       phoneTel: "+543834781774",
     },
-    walther: {
-      name: "Walther",
-      phoneDisplay: "0383 465-3348",
-      phoneTel: "+543834653348",
-    },
   },
   email: "hmelo77@hotmail.com",
 } as const;

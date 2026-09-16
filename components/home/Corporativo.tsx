@@ -18,7 +18,7 @@ export default function Corporativo() {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-6">
             <Photo
-              src="/images/corporativos/corpo.jpg"
+              src="/images/corporativos/corpo.png"
               alt="Evento corporativo en ML Salón de Eventos"
               ratio="16 / 10"
               sizes="(min-width: 1024px) 50vw, 100vw"

@@ -58,7 +58,7 @@ export const occasions: Occasion[] = [
     description: "La despedida que cierra una etapa y abre todo lo que viene.",
     whatsappOccasion: "egresados",
     photo: {
-      src: "/images/egresados/fiestajovenes.jpg",
+      src: "/images/egresados/egresadosportal.png",
       alt: "Fiesta de egresados en el salón",
       ratio: "16 / 9",
     },
@@ -77,22 +77,9 @@ export const occasions: Occasion[] = [
     },
   },
   {
-    slug: "celebraciones",
-    label: "Celebraciones",
-    index: "05",
-    description:
-      "Bautismos, comuniones y encuentros familiares que piden un lugar especial.",
-    whatsappOccasion: "celebracion",
-    photo: {
-      src: "/images/celebraciones/gente-bailando.jpg",
-      alt: "Invitados bailando durante una celebración",
-      ratio: "3 / 2",
-    },
-  },
-  {
     slug: "corporativos",
     label: "Corporativos",
-    index: "06",
+    index: "05",
     description:
       "Encuentros de empresas con la presencia que la ocasión requiere.",
     whatsappOccasion: "corporativo",

@@ -7,9 +7,10 @@ import { site } from "@/data/site";
 import { getMapsUrl } from "@/lib/maps";
 
 /**
- * 04 — EL ESPACIO. Composición arquitectónica: encabezado editorial,
- * una fotografía protagonista de gran superficie y una secundaria que
- * se superpone. Comunica "este es el lugar", sin describir capacidades.
+ * 04 — EL ESPACIO. Composición fotográfica editorial: una única imagen
+ * protagonista a gran escala con el texto superpuesto en su zona baja
+ * (velo carbón muy sutil + blur, solo detrás del texto). Sin tarjetas,
+ * sin collage, sin grilla: la fotografía protagoniza.
  */
 export default function ElEspacio() {
   const { street, reference, city, province } = site.address;
@@ -17,59 +18,45 @@ export default function ElEspacio() {
   return (
     <section id="el-espacio" className="grain scroll-mt-24 bg-carbon text-ivory">
       <Container className="py-20 sm:py-28">
-        <div className="grid items-end gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <Reveal>
-              <Kicker tone="dark">El espacio</Kicker>
-              <h2 className="mt-4 font-display text-5xl font-medium leading-[1.04] sm:text-6xl">
-                Este es <span className="italic">el lugar.</span>
-              </h2>
-            </Reveal>
+        <Reveal>
+          <div className="relative">
+            <Photo
+              src="/images/salon/marialuisa.png"
+              alt="El salón principal de ML Salón de Eventos"
+              ratio="16 / 9"
+              sizes="(min-width: 1024px) 92vw, 100vw"
+              className="group"
+              imageClassName="motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.02]"
+            />
+
+            {/* Texto sobre la foto. Desktop: superpuesto en la zona baja,
+                sobre un velo carbón muy sutil con blur leve (solo detrás
+                del texto). Mobile: fluye bajo la imagen sobre el carbón
+                de la sección, siempre perfectamente legible. */}
+            <div className="relative z-10 sm:absolute sm:inset-x-0 sm:bottom-0">
+              <div className="bg-carbon/60 pb-2 pt-8 backdrop-blur-md sm:mb-10 sm:ml-10 sm:mr-auto sm:max-w-md sm:bg-carbon/45 sm:p-8 sm:pb-0 sm:pt-0 sm:backdrop-blur-sm lg:mb-14 lg:ml-14">
+                <Kicker tone="dark">El espacio</Kicker>
+                <h2 className="mt-4 font-display text-5xl font-medium leading-[1.04] sm:text-6xl">
+                  Este es <span className="italic">el lugar.</span>
+                </h2>
+                <p className="mt-6 max-w-xs text-sm leading-relaxed text-ivory/80">
+                  {street} · {reference}
+                  <br />
+                  {city}, {province}
+                </p>
+                <Button
+                  href={getMapsUrl()}
+                  variant="outline"
+                  tone="dark"
+                  size="sm"
+                  external
+                  className="mt-5"
+                >
+                  Cómo llegar
+                </Button>
+              </div>
+            </div>
           </div>
-
-          <div className="lg:col-span-4 lg:col-start-9">
-            <Reveal delay={0.1}>
-              <p className="max-w-xs text-sm leading-relaxed text-ivory/70">
-                {street} · {reference}
-                <br />
-                {city}, {province}
-              </p>
-              <Button
-                href={getMapsUrl()}
-                variant="outline"
-                tone="dark"
-                size="sm"
-                external
-                className="mt-5"
-              >
-                Cómo llegar
-              </Button>
-            </Reveal>
-          </div>
-        </div>
-
-        <Reveal delay={0.08} className="mt-12 sm:mt-14">
-          <Photo
-            src="/images/salon/mesas.jpg"
-            alt="Mesas del salón vestidas para una celebración"
-            ratio="16 / 8"
-            sizes="(min-width: 1024px) 92vw, 100vw"
-            className="group"
-            imageClassName="motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.02]"
-          />
-        </Reveal>
-
-        <Reveal
-          delay={0.18}
-          className="relative z-10 mt-6 w-2/3 sm:w-1/2 lg:-mt-24 lg:ml-8 lg:w-2/5"
-        >
-          <Photo
-            src="/images/salon/decosalon4.jpg"
-            alt="Salón ambientado para una celebración"
-            ratio="4 / 5"
-            sizes="(min-width: 1024px) 26vw, 60vw"
-            className="ring-1 ring-carbon"
-          />
         </Reveal>
       </Container>
     </section>

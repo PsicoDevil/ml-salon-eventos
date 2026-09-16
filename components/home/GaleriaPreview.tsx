@@ -7,7 +7,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { galleryItems } from "@/data/galeria";
 
 /**
- * 06 — GALERÍA (preview). Selección curada de 8 piezas en composición
+ * 06 — GALERÍA (preview). Selección curada de 7 piezas en composición
  * editorial asimétrica con lightbox accesible. La colección completa
  * vive en /galeria; el enlace de cierre es editorial, no un botón.
  */

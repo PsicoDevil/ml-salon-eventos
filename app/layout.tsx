@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import SkipLink from "@/components/layout/SkipLink";
+import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import MotionProvider from "@/components/motion/MotionProvider";
 import { buildBaseMetadata } from "@/lib/seo";
 
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
+          <WhatsAppFloat />
         </MotionProvider>
       </body>
     </html>

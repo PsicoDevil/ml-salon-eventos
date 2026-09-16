@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/brand/Logo";
 import Hairline from "@/components/ui/Hairline";
 import Kicker from "@/components/ui/Kicker";
 import { navigation } from "@/data/navigation";
 import { site } from "@/data/site";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 /**
  * Footer carbón: marca, ubicación real, contactos confirmados y navegación.
@@ -56,21 +57,22 @@ export default function Footer() {
             <ul className="mt-5 space-y-3 text-sm text-ivory/70">
               <li>
                 <a
+                  href={buildWhatsAppUrl("general")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 transition-colors hover:text-gold"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" aria-hidden />
+                  WhatsApp · {site.contacts.hugo.name}
+                </a>
+              </li>
+              <li>
+                <a
                   href={`tel:${site.contacts.hugo.phoneTel}`}
                   className="inline-flex items-center gap-2 transition-colors hover:text-gold"
                 >
                   <Phone className="h-3.5 w-3.5" aria-hidden />
                   {site.contacts.hugo.phoneDisplay} · {site.contacts.hugo.name}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${site.contacts.walther.phoneTel}`}
-                  className="inline-flex items-center gap-2 transition-colors hover:text-gold"
-                >
-                  <Phone className="h-3.5 w-3.5" aria-hidden />
-                  {site.contacts.walther.phoneDisplay} ·{" "}
-                  {site.contacts.walther.name}
                 </a>
               </li>
               <li>
@@ -122,7 +124,15 @@ export default function Footer() {
             © {year} {site.name}
           </p>
           <p>
-            {city} · {province} · {country}
+            Desarrollado por:{" "}
+            <a
+              href="https://mrportfolio-seven.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-gold"
+            >
+              MR
+            </a>
           </p>
         </div>
       </Container>

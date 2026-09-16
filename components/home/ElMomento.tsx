@@ -37,8 +37,8 @@ export default function ElMomento() {
 
           <Reveal delay={0.1} className="lg:col-span-8 lg:-mr-12">
             <Photo
-              src="/images/salon/decoracion.jpg"
-              alt="Detalles de la decoración del salón"
+              src="/images/bodas/bodaportada.png"
+              alt="La pareja celebrando su boda en ML Salón de Eventos"
               ratio="4 / 5"
               sizes="(min-width: 1024px) 62vw, 100vw"
               className="group"

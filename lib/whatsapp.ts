@@ -3,15 +3,10 @@ import { site } from "@/data/site";
 /**
  * Número de WhatsApp en formato internacional, solo dígitos (sin "+").
  *
- * PENDIENTE DE CONFIRMACIÓN: aún no está definido cuál de los dos teléfonos
- * confirmados corresponde al canal de WhatsApp:
- *   0383 478-1774 · Hugo
- *   0383 465-3348 · Walther
- *
- * Mientras esté vacío, los CTA principales degradan con elegancia a una
- * llamada telefónica al contacto confirmado (Hugo). Nada se inventa.
+ * Confirmado: el canal de WhatsApp de ML es el teléfono de Hugo
+ * (0383 478-1774 → 543834781774). Es el único contacto público del sitio.
  */
-export const WHATSAPP_NUMBER = "";
+export const WHATSAPP_NUMBER = "543834781774";
 
 export type WhatsAppOccasion =
   | "general"
@@ -21,7 +16,6 @@ export type WhatsAppOccasion =
   | "cumpleanos"
   | "bautismo"
   | "comunion"
-  | "celebracion"
   | "corporativo";
 
 /** Mensajes contextuales por ocasión. */
@@ -34,8 +28,6 @@ const OCCASION_MESSAGES: Record<WhatsAppOccasion, string> = {
   cumpleanos: "Hola, quisiera consultar disponibilidad para un cumpleaños.",
   bautismo: "Hola, quisiera consultar disponibilidad para un bautismo.",
   comunion: "Hola, quisiera consultar disponibilidad para una comunión.",
-  celebracion:
-    "Hola, quisiera consultar disponibilidad para una celebración.",
   corporativo:
     "Hola, quisiera consultar disponibilidad para un evento corporativo.",
 };

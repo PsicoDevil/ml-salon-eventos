@@ -4,9 +4,10 @@ import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
 
 /**
- * 05 — EXPERIENCIAS. Editorial fotográfico: dos fotografías de gran
- * escala con desigualdad intencional y pequeños epígrafes. Sin grilla
- * de cards; sin promesas comerciales: los epígrafes describen la foto.
+ * 05 — EXPERIENCIAS. Editorial fotográfico: dos fotografías en par, a
+ * la misma escala, lado a lado (una columna en mobile), con pequeños
+ * epígrafes. Sin grilla de cards; sin promesas comerciales: los
+ * epígrafes describen la foto.
  */
 export default function Experiencias() {
   return (
@@ -27,14 +28,14 @@ export default function Experiencias() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-12 sm:gap-8">
-          <Reveal delay={0.08} className="sm:col-span-8">
+        <div className="mt-12 grid gap-8 sm:grid-cols-2">
+          <Reveal delay={0.08}>
             <figure>
               <Photo
-                src="/images/celebraciones/comida-mesa.jpg"
-                alt="Mesa compartida durante una celebración"
-                ratio="3 / 2"
-                sizes="(min-width: 640px) 62vw, 100vw"
+                src="/images/detalles/copasexterior.png"
+                alt="Copas durante el brindis en el espacio exterior"
+                ratio="4 / 3"
+                sizes="(min-width: 640px) 50vw, 100vw"
                 className="group"
                 imageClassName="motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.02]"
               />
@@ -45,20 +46,18 @@ export default function Experiencias() {
             </figure>
           </Reveal>
 
-          <Reveal
-            delay={0.16}
-            className="sm:col-span-3 sm:col-start-10 sm:mt-20"
-          >
+          <Reveal delay={0.16}>
             <figure>
               <Photo
-                src="/images/aire-libre/pileta-tarde.jpg"
+                src="/images/aire-libre/piletanoche.png"
                 alt="Pileta del espacio exterior al atardecer"
-                ratio="4 / 5"
-                sizes="(min-width: 640px) 24vw, 100vw"
+                ratio="4 / 3"
+                sizes="(min-width: 640px) 50vw, 100vw"
                 className="group"
                 imageClassName="motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.02]"
               />
-              <figcaption className="mt-4 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/55">
+              <figcaption className="mt-4 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/55">
+                <span aria-hidden="true" className="h-px w-8 bg-gold/60" />
                 El exterior, al atardecer
               </figcaption>
             </figure>

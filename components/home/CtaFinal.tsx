@@ -8,8 +8,7 @@ import { getPrimaryContact } from "@/lib/whatsapp";
 /**
  * 09 — CTA FINAL. Cierre oscuro con fotografía a sangre bajo un velo
  * carbón profundo: el final natural de una experiencia premium.
- * Conversión principal (WhatsApp cuando esté confirmado; teléfono
- * confirmado mientras tanto).
+ * Conversión principal: WhatsApp (número confirmado, ver lib/whatsapp.ts).
  */
 export default function CtaFinal() {
   const contact = getPrimaryContact("general");
