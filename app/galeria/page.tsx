@@ -8,9 +8,9 @@ import { getPrimaryContact } from "@/lib/whatsapp";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Galería",
+  title: "Galería de fotos",
   description:
-    "Conocé ML Salón de Eventos a través de una selección de celebraciones, espacios y momentos vividos en Catamarca.",
+    "Galería de fotos de ML Salón de Eventos: fiestas de 15, casamientos, cumpleaños, fiestas infantiles, comuniones y eventos corporativos celebrados en Catamarca.",
   path: "/galeria",
 });
 
@@ -36,8 +36,8 @@ export default function GaleriaPage() {
             Momentos reales, <span className="italic">celebrados acá.</span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg">
-            El archivo visual de ML: celebraciones, ambientaciones y
-            espacios, tal como se vivieron.
+            El archivo visual de ML: fiestas de 15, casamientos, cumpleaños,
+            fiestas infantiles y más, tal como se vivieron en el salón.
           </p>
         </Reveal>
       </Container>

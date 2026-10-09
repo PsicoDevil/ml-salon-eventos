@@ -4,20 +4,24 @@ import Container from "@/components/ui/Container";
 import Logo from "@/components/brand/Logo";
 import Hairline from "@/components/ui/Hairline";
 import Kicker from "@/components/ui/Kicker";
-import { navigation } from "@/data/navigation";
+import SocialLinks from "@/components/ui/SocialLinks";
+import { navHref, navigation } from "@/data/navigation";
 import { site } from "@/data/site";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 /**
- * Footer carbón: marca, ubicación real, contactos confirmados y navegación.
- * Sin información inventada: solo lo confirmado por ML.
+ * Footer carbón: marca, ubicación real, contactos confirmados, redes
+ * sociales verificadas y navegación. Sin información inventada: solo lo
+ * confirmado por ML. La ancla #contacto del Home apunta a la sección
+ * Contacto; los enlaces internos del footer usan navHref() para
+ * funcionar desde cualquier página.
  */
 export default function Footer() {
   const year = new Date().getFullYear();
   const { street, reference, city, province, country } = site.address;
 
   return (
-    <footer id="contacto" className="scroll-mt-24 bg-carbon text-ivory">
+    <footer className="scroll-mt-24 bg-carbon text-ivory">
       <Hairline className="bg-gold/25" />
 
       <Container className="py-16 sm:py-20">
@@ -33,6 +37,20 @@ export default function Footer() {
             <p className="mt-6 max-w-xs font-display text-xl italic leading-snug text-ivory/75">
               {site.claim}
             </p>
+            <Kicker as="h2" tone="dark" className="mt-10">
+              Seguinos
+            </Kicker>
+            <div className="mt-4 flex items-center gap-3">
+              <SocialLinks tone="dark" />
+              <a
+                href={site.social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-ivory/50 transition-colors hover:text-gold"
+              >
+                {site.social.instagram.handle}
+              </a>
+            </div>
           </div>
 
           <div>
@@ -106,7 +124,7 @@ export default function Footer() {
                       </Link>
                     ) : (
                       <a
-                        href={item.href}
+                        href={navHref(item.href)}
                         className="transition-colors hover:text-gold"
                       >
                         {item.label}
@@ -121,7 +139,7 @@ export default function Footer() {
 
         <div className="mt-16 flex flex-col gap-2 border-t border-ivory/10 pt-6 text-xs text-ivory/45 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {site.name}
+            © {year} {site.name} · Salón de eventos en Catamarca
           </p>
           <p>
             Desarrollado por:{" "}

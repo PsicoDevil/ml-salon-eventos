@@ -5,8 +5,10 @@ import type { RefObject } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
-import { navigation } from "@/data/navigation";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import Kicker from "@/components/ui/Kicker";
+import SocialLinks from "@/components/ui/SocialLinks";
+import { navHref, navigation } from "@/data/navigation";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 type MobileMenuProps = {
@@ -24,7 +26,6 @@ type MobileMenuProps = {
  */
 export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps) {
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
-  const contact = getPrimaryContact("general");
 
   useEffect(() => {
     if (!open) return;
@@ -61,7 +62,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 cursor-default bg-carbon/70 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 cursor-default bg-carbon/70 backdrop-blur-sm lg:hidden"
           />
 
           <motion.div
@@ -74,7 +75,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: EASE_OUT_EXPO }}
-            className="fixed inset-x-4 top-20 z-[45] overflow-hidden border border-gold/25 bg-carbon md:hidden"
+            className="fixed inset-x-4 top-20 z-[45] overflow-hidden border border-gold/25 bg-carbon lg:hidden"
           >
             <nav aria-label="Navegación mobile">
               <ul className="divide-y divide-ivory/10 px-2 py-2">
@@ -96,7 +97,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
                         </Link>
                       ) : (
                         <a
-                          href={item.href}
+                          href={navHref(item.href)}
                           ref={index === 0 ? firstLinkRef : undefined}
                           onClick={onClose}
                           className={classes}
@@ -111,11 +112,15 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             </nav>
 
             <div className="border-t border-ivory/10 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
+              <Kicker as="p" tone="dark">
+                Seguinos
+              </Kicker>
+              <SocialLinks className="mt-3" />
               <Button
-                href={contact.href}
-                external={contact.channel === "whatsapp"}
+                href={buildWhatsAppUrl("general")}
+                external
                 onClick={onClose}
-                className="w-full"
+                className="mt-5 w-full"
               >
                 Consultar por WhatsApp
               </Button>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import { navHref } from "@/data/navigation";
 
 /**
  * 01 — HERO. Portada de revista: fotografía full viewport, contenido
@@ -11,8 +11,6 @@ import { getPrimaryContact } from "@/lib/whatsapp";
  * sobre la fotografía. Sin sliders ni animaciones pesadas.
  */
 export default function Hero() {
-  const contact = getPrimaryContact("general");
-
   return (
     <section className="relative flex min-h-svh items-end overflow-hidden bg-carbon text-ivory">
       <Image
@@ -44,20 +42,22 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <h1 className="mt-6 max-w-4xl font-display text-[clamp(3rem,8vw,6.25rem)] font-medium leading-[1.0]">
-            El momento <span className="italic">empieza acá.</span>
+          <h1 className="mt-6 max-w-4xl">
+            <span className="block font-sans text-xs font-semibold uppercase tracking-[0.28em] text-ivory/80 sm:text-sm">
+              Salón de eventos en Catamarca
+            </span>
+            <span className="mt-5 block font-display text-[clamp(3rem,8vw,6.25rem)] font-medium leading-[1.0]">
+              El momento <span className="italic">empieza acá.</span>
+            </span>
           </h1>
         </Reveal>
 
         <Reveal delay={0.26}>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Button
-              href={contact.href}
-              external={contact.channel === "whatsapp"}
-            >
+            <Button href={navHref("#contacto")}>
               Consultar disponibilidad
             </Button>
-            <Button href="#eventos" variant="outline">
+            <Button href={navHref("#eventos")} variant="outline">
               Ver eventos
             </Button>
           </div>

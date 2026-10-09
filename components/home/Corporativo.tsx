@@ -3,15 +3,13 @@ import Container from "@/components/ui/Container";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
 import Kicker from "@/components/ui/Kicker";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import { navHref } from "@/data/navigation";
 
 /**
  * 07 — CORPORATIVO. Compacto: una fotografía potente + texto breve +
  * CTA. Sin cards y sin servicios inventados: el texto invita a consultar.
  */
 export default function Corporativo() {
-  const contact = getPrimaryContact("corporativo");
-
   return (
     <section className="grain bg-carbon text-ivory">
       <Container className="py-16 sm:py-20">
@@ -19,7 +17,7 @@ export default function Corporativo() {
           <Reveal className="lg:col-span-6">
             <Photo
               src="/images/corporativos/corpo.png"
-              alt="Evento corporativo en ML Salón de Eventos"
+              alt="Evento corporativo y empresarial en ML Salón de Eventos"
               ratio="16 / 10"
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="group"
@@ -28,21 +26,20 @@ export default function Corporativo() {
           </Reveal>
 
           <Reveal delay={0.12} className="lg:col-span-5 lg:col-start-8">
-            <Kicker tone="dark">Corporativo</Kicker>
+            <Kicker tone="dark">Corporativo y empresarial</Kicker>
             <h2 className="mt-4 font-display text-4xl font-medium leading-[1.08] sm:text-5xl">
               Encuentros que también{" "}
               <span className="italic">necesitan presencia.</span>
             </h2>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-ivory/70 sm:text-base">
-              Agasajos y encuentros de empresas en el mismo escenario que las
-              grandes celebraciones. Contanos qué tenés en mente.
+              Reuniones de trabajo, agasajos y encuentros de empresas:
+              congresos, jornadas, capacitaciones, lanzamientos y aniversarios
+              en el mismo escenario que las grandes celebraciones. Contanos qué
+              tenés en mente.
             </p>
             <div className="mt-8">
-              <Button
-                href={contact.href}
-                external={contact.channel === "whatsapp"}
-              >
-                Consultar disponibilidad
+              <Button href={navHref("#contacto")}>
+                Solicitar presupuesto
               </Button>
             </div>
           </Reveal>

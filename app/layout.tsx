@@ -6,7 +6,7 @@ import Header from "@/components/layout/Header";
 import SkipLink from "@/components/layout/SkipLink";
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
 import MotionProvider from "@/components/motion/MotionProvider";
-import { buildBaseMetadata } from "@/lib/seo";
+import { buildBaseMetadata, buildVenueJsonLd } from "@/lib/seo";
 
 /* Display: Cormorant Garamond — serif editorial de alto contraste. */
 const cormorant = Cormorant_Garamond({
@@ -26,6 +26,9 @@ const manrope = Manrope({
 
 export const metadata: Metadata = buildBaseMetadata();
 
+/** JSON-LD de EventVenue (datos confirmados, lib/seo.ts). */
+const venueJsonLd = buildVenueJsonLd();
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -34,6 +37,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-ivory font-sans text-ink antialiased">
         <MotionProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(venueJsonLd) }}
+          />
           <SkipLink />
           <Header />
           <main

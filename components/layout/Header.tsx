@@ -8,9 +8,9 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/brand/Logo";
 import MobileMenu from "@/components/layout/MobileMenu";
-import { navigation } from "@/data/navigation";
+import { navHref, navigation, navigationDesktop } from "@/data/navigation";
 import { site } from "@/data/site";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import SocialLinks from "@/components/ui/SocialLinks";
 import { cn } from "@/lib/cn";
 
 /**
@@ -18,8 +18,8 @@ import { cn } from "@/lib/cn";
  * blur moderado (site-header-scrim); al hacer scroll: carbón sólido.
  * Misma barra, dos estados. Active state editorial: hairline dorada
  * bajo la sección visible (IntersectionObserver; /galeria via
- * pathname). El CTA principal apunta al canal de WhatsApp confirmado
- * (ver lib/whatsapp.ts).
+ * pathname). El CTA principal apunta a la sección de contacto del Home
+ * (formulario de consulta); las redes sociales viven junto al CTA.
  */
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -27,7 +27,6 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
-  const contact = getPrimaryContact("general");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -83,9 +82,9 @@ export default function Header() {
           <Logo size="lg" className="text-ivory" />
         </Link>
 
-        <nav aria-label="Navegación principal" className="hidden md:block">
-          <ul className="flex items-center gap-11">
-            {navigation.map((item) => {
+        <nav aria-label="Navegación principal" className="hidden lg:block">
+          <ul className="flex items-center gap-7 xl:gap-11">
+            {navigationDesktop.map((item) => {
               const isInternal =
                 item.href.startsWith("/") && !item.href.startsWith("//");
               const isActive = isInternal
@@ -103,7 +102,7 @@ export default function Header() {
                       <NavRule active={isActive} />
                     </Link>
                   ) : (
-                    <a href={item.href} className={classes}>
+                    <a href={navHref(item.href)} className={classes}>
                       {item.label}
                       <NavRule active={isActive} />
                     </a>
@@ -115,9 +114,9 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <SocialLinks className="hidden lg:flex" />
           <Button
-            href={contact.href}
-            external={contact.channel === "whatsapp"}
+            href={navHref("#contacto")}
             size="sm"
             className="hidden h-11 border border-gold/40 bg-ivory px-7 text-[11px] tracking-[0.18em] text-ink hover:bg-white hover:border-gold md:inline-flex"
           >
@@ -130,7 +129,7 @@ export default function Header() {
             aria-expanded={menuOpen}
             aria-controls="menu-navegacion"
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            className="inline-flex h-11 w-11 items-center justify-center text-ivory transition-colors hover:text-gold md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center text-ivory transition-colors hover:text-gold lg:hidden"
           >
             {menuOpen ? (
               <X className="h-6 w-6" aria-hidden />

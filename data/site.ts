@@ -2,8 +2,11 @@
  * Información confirmada de ML Salón de Eventos.
  *
  * Regla del proyecto: este archivo centraliza EXCLUSIVAMENTE información
- * confirmada. No inventar capacidad, servicios, horarios, redes sociales
- * ni canal de WhatsApp (ver lib/whatsapp.ts).
+ * confirmada. No inventar capacidad, servicios, horarios ni canal de
+ * WhatsApp (ver lib/whatsapp.ts). Las redes sociales están verificadas:
+ * - Instagram: handle @ml_salondeeventos (perfil oficial).
+ * - Facebook: página oficial "ML Salón de Eventos" (id 100086731144154,
+ *   "ML Salón de Eventos | San Fernando del Valle de Catamarca").
  *
  * phoneTel es el número confirmado reexpresado en formato internacional
  * (transformación mecánica: prefijo país +54, sin el 0 del área).
@@ -14,7 +17,7 @@ export const site = {
   shortName: "ML",
   claim: "El lugar donde tu celebración toma forma.",
   description:
-    "Salón de eventos en San Fernando del Valle de Catamarca, camino al Dique El Jumeal. Bodas, fiestas de 15, egresados, cumpleaños, bautismos, comuniones, celebraciones y eventos corporativos. Consultá disponibilidad.",
+    "ML Salón de Eventos: salón de eventos en Catamarca, camino al Dique El Jumeal. Fiestas de 15, casamientos, cumpleaños, fiestas infantiles, comuniones y bautismos, eventos corporativos y celebraciones al aire libre con pileta. Consultá disponibilidad y presupuesto.",
   address: {
     street: "Bartolomé de Castro S/N",
     reference: "Camino al Dique El Jumeal",
@@ -31,4 +34,15 @@ export const site = {
     },
   },
   email: "hmelo77@hotmail.com",
+  social: {
+    instagram: {
+      handle: "@ml_salondeeventos",
+      url: "https://www.instagram.com/ml_salondeeventos/",
+    },
+    facebook: {
+      name: "ML Salón de Eventos",
+      url: "https://www.facebook.com/profile.php?id=100086731144154",
+    },
+  },
 } as const;
+

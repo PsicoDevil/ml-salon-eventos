@@ -2,17 +2,15 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
-import { site } from "@/data/site";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import { navHref } from "@/data/navigation";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 /**
  * 09 — CTA FINAL. Cierre oscuro con fotografía a sangre bajo un velo
  * carbón profundo: el final natural de una experiencia premium.
- * Conversión principal: WhatsApp (número confirmado, ver lib/whatsapp.ts).
+ * Conversión: formulario de consulta y WhatsApp (lib/whatsapp.ts).
  */
 export default function CtaFinal() {
-  const contact = getPrimaryContact("general");
-
   return (
     <section className="grain relative overflow-hidden bg-carbon text-ivory">
       <Image
@@ -43,18 +41,16 @@ export default function CtaFinal() {
 
         <Reveal delay={0.24}>
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button
-              href={contact.href}
-              external={contact.channel === "whatsapp"}
-            >
-              Consultar disponibilidad
+            <Button href={navHref("#contacto")}>
+              Solicitar presupuesto
             </Button>
             <Button
-              href={`tel:${site.contacts.hugo.phoneTel}`}
+              href={buildWhatsAppUrl("general")}
+              external
               variant="outline"
               tone="dark"
             >
-              {site.contacts.hugo.phoneDisplay} · {site.contacts.hugo.name}
+              Consultar por WhatsApp
             </Button>
           </div>
         </Reveal>

@@ -14,9 +14,9 @@ type LogoProps = {
  * contenedor (text-ivory / text-ink).
  */
 const SIZE_CLASSES = {
-  sm: { image: "h-8", monogram: "text-2xl", gap: "gap-3", rule: "h-6" },
-  md: { image: "h-10", monogram: "text-3xl", gap: "gap-3.5", rule: "h-8" },
-  lg: { image: "h-12", monogram: "text-4xl", gap: "gap-4", rule: "h-9" },
+  sm: { image: "h-8", monogram: "text-2xl", gap: "gap-4", rule: "h-6" },
+  md: { image: "h-10", monogram: "text-3xl", gap: "gap-5", rule: "h-8" },
+  lg: { image: "h-12", monogram: "text-4xl", gap: "gap-6", rule: "h-9" },
 } as const;
 
 export default function Logo({ className, size = "md" }: LogoProps) {
