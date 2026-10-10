@@ -4,7 +4,6 @@ import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 
 /**
  * 08 — CATERING. La secuencia gastronómica del evento (recepción →
@@ -18,33 +17,32 @@ const PASOS = [
     paso: "01",
     titulo: "Recepción",
     detalle:
-      "Cóctel de bienvenida con picada mientras los invitados van llegando y la ambientación se disfruta.",
+      "La primera etapa del catering tradicional completo, para recibir a tus invitados.",
   },
   {
     paso: "02",
     titulo: "Plato principal",
     detalle:
-      "Servicio a la mesa o vivo, según el formato del evento, con la logística de los mozos resuelta.",
+      "El plato principal del catering tradicional, como parte de la celebración.",
   },
   {
     paso: "03",
     titulo: "Postre",
     detalle:
-      "El cierre dulce antes de la pista: postre servido y mesa dulce a disposición.",
+      "El momento dulce del menú, incluido en el catering tradicional completo.",
   },
   {
     paso: "04",
     titulo: "Fin de fiesta",
     detalle:
-      "El último brindis despide la noche sin cortes ni esperas: todo transcurre dentro del salón.",
+      "Comida de fin de fiesta para acompañar el cierre de la celebración.",
   },
 ];
 
 /** Rubros de bebidas del servicio. */
 const BEBIDAS = [
-  "Agua, gaseosas y jugos durante todo el evento",
-  "Cerveza bien fría en la recepción y la pista",
-  "Vinos para el brindis y la mesa",
+  "Línea Coca-Cola, agua y soda",
+  "Hasta 2 vinos por mesa de adultos",
 ];
 
 export default function Catering() {
@@ -60,8 +58,8 @@ export default function Catering() {
                 <span className="italic">también protagonista.</span>
               </h2>
               <p className="mt-6 max-w-md text-base leading-relaxed text-ivory/75 sm:text-lg">
-                El servicio gastronómico acompaña toda la celebración, de la
-                recepción al fin de fiesta, sin interrupciones. El menú se
+                La Experiencia María Luisa incluye catering tradicional
+                completo, de la recepción a la comida de fin de fiesta. El menú se
                 define en el asesoramiento previo a tu evento.
               </p>
             </Reveal>
@@ -128,7 +126,7 @@ export default function Catering() {
 
               <div className="mt-8">
                 <Button
-                  href={navHref("#contacto")}
+                  href="#contacto"
                   variant="outline"
                   tone="dark"
                 >

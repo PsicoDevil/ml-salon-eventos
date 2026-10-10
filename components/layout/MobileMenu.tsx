@@ -26,6 +26,7 @@ type MobileMenuProps = {
  */
 export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps) {
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -35,8 +36,21 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         onClose();
         toggleRef.current?.focus();
+      } else if (event.key === "Tab") {
+        const links = Array.from(panelRef.current?.querySelectorAll<HTMLElement>("a[href], button") ?? []);
+        const controls = [toggleRef.current, ...links].filter((element): element is HTMLElement => element !== null);
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }
     };
     document.addEventListener("keydown", onKeyDown);
@@ -57,17 +71,22 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             key="menu-backdrop"
             type="button"
             aria-label="Cerrar menú"
-            onClick={onClose}
+            tabIndex={-1}
+            onClick={() => {
+              onClose();
+              toggleRef.current?.focus();
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 cursor-default bg-carbon/70 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 cursor-default bg-carbon/70 backdrop-blur-sm min-[1440px]:hidden"
           />
 
           <motion.div
             key="menu-panel"
             id="menu-navegacion"
+            ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-label="Menú de navegación"
@@ -75,7 +94,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: EASE_OUT_EXPO }}
-            className="fixed inset-x-4 top-20 z-[45] overflow-hidden border border-gold/25 bg-carbon lg:hidden"
+            className="fixed inset-x-4 top-24 z-[45] max-h-[calc(100dvh-7rem)] overflow-y-auto overscroll-contain border border-gold/25 bg-carbon sm:left-auto sm:right-10 sm:w-96 lg:right-12 min-[1440px]:hidden"
           >
             <nav aria-label="Navegación mobile">
               <ul className="divide-y divide-ivory/10 px-2 py-2">
@@ -117,10 +136,18 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
               </Kicker>
               <SocialLinks className="mt-3" />
               <Button
+                href={navHref("#contacto")}
+                onClick={onClose}
+                className="mt-5 w-full"
+              >
+                Consultar disponibilidad
+              </Button>
+              <Button
                 href={buildWhatsAppUrl("general")}
                 external
                 onClick={onClose}
-                className="mt-5 w-full"
+                variant="outline"
+                className="mt-3 w-full"
               >
                 Consultar por WhatsApp
               </Button>

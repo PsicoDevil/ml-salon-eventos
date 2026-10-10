@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import Button from "@/components/ui/Button";
-import Container from "@/components/ui/Container";
 import Logo from "@/components/brand/Logo";
 import MobileMenu from "@/components/layout/MobileMenu";
 import { navHref, navigation, navigationDesktop } from "@/data/navigation";
@@ -64,6 +63,15 @@ export default function Header() {
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1440px)");
+    const onResize = () => {
+      if (desktop.matches) closeMenu();
+    };
+    desktop.addEventListener("change", onResize);
+    return () => desktop.removeEventListener("change", onResize);
+  }, [closeMenu]);
+
   return (
     <header
       className={cn(
@@ -73,17 +81,18 @@ export default function Header() {
           : "site-header-scrim border-b border-gold/20",
       )}
     >
-      <Container className="flex h-20 items-center justify-between lg:h-[84px]">
+      <div className="mx-auto flex h-20 w-full max-w-[1600px] items-center justify-between gap-4 px-5 sm:gap-8 sm:px-10 lg:px-12 min-[1440px]:h-[88px]">
         <Link
           href="/"
           aria-label={`${site.name} — Inicio`}
-          className="flex items-center"
+          onClick={closeMenu}
+          className="relative z-[51] flex shrink-0 items-center"
         >
-          <Logo size="lg" className="text-ivory" />
+          <Logo size="lg" showWordmarkOnMobile className="text-ivory" />
         </Link>
 
-        <nav aria-label="Navegación principal" className="hidden lg:block">
-          <ul className="flex items-center gap-7 xl:gap-11">
+        <nav aria-label="Navegación principal" className="hidden shrink-0 min-[1440px]:block">
+          <ul className="flex items-center gap-8">
             {navigationDesktop.map((item) => {
               const isInternal =
                 item.href.startsWith("/") && !item.href.startsWith("//");
@@ -91,18 +100,18 @@ export default function Header() {
                 ? pathname === item.href
                 : activeHref === item.href;
               const classes = cn(
-                "group relative font-sans text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors duration-300",
+                "group relative inline-flex min-h-11 items-center whitespace-nowrap font-sans text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors duration-300",
                 isActive ? "text-ivory" : "text-ivory hover:text-gold",
               );
               return (
                 <li key={item.href}>
                   {isInternal ? (
-                    <Link href={item.href} className={classes}>
+                    <Link href={item.href} className={classes} aria-current={isActive ? "page" : undefined}>
                       {item.label}
                       <NavRule active={isActive} />
                     </Link>
                   ) : (
-                    <a href={navHref(item.href)} className={classes}>
+                    <a href={navHref(item.href)} className={classes} aria-current={isActive ? "location" : undefined}>
                       {item.label}
                       <NavRule active={isActive} />
                     </a>
@@ -113,15 +122,19 @@ export default function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <SocialLinks className="hidden lg:flex" />
-          <Button
-            href={navHref("#contacto")}
-            size="sm"
-            className="hidden h-11 border border-gold/40 bg-ivory px-7 text-[11px] tracking-[0.18em] text-ink hover:bg-white hover:border-gold md:inline-flex"
-          >
-            Consultar disponibilidad
-          </Button>
+        <div className="flex shrink-0 items-center gap-4">
+          <div className="hidden border-l border-ivory/15 pl-5 min-[1440px]:block">
+            <SocialLinks className="gap-2" />
+          </div>
+          <div className="hidden md:block">
+            <Button
+              href={navHref("#contacto")}
+              size="sm"
+              className="min-h-11 whitespace-nowrap border border-gold/40 hover:border-gold"
+            >
+              Consultar disponibilidad
+            </Button>
+          </div>
           <button
             ref={toggleRef}
             type="button"
@@ -129,7 +142,7 @@ export default function Header() {
             aria-expanded={menuOpen}
             aria-controls="menu-navegacion"
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-            className="inline-flex h-11 w-11 items-center justify-center text-ivory transition-colors hover:text-gold lg:hidden"
+            className="relative z-[51] inline-flex h-11 w-11 shrink-0 items-center justify-center border border-ivory/20 text-ivory transition-colors hover:border-gold hover:text-gold min-[1440px]:hidden"
           >
             {menuOpen ? (
               <X className="h-6 w-6" aria-hidden />
@@ -138,7 +151,7 @@ export default function Header() {
             )}
           </button>
         </div>
-      </Container>
+      </div>
 
       <MobileMenu open={menuOpen} onClose={closeMenu} toggleRef={toggleRef} />
     </header>
@@ -151,7 +164,7 @@ function NavRule({ active }: { active: boolean }) {
     <span
       aria-hidden
       className={cn(
-        "absolute -bottom-2 left-0 h-px bg-gold transition-all duration-300",
+        "absolute bottom-0 left-0 h-px bg-gold transition-all duration-300",
         active ? "w-full" : "w-0 group-hover:w-full",
       )}
     />

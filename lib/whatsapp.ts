@@ -3,10 +3,28 @@ import { site } from "@/data/site";
 /**
  * Número de WhatsApp en formato internacional, solo dígitos (sin "+").
  *
- * Confirmado: el canal de WhatsApp de ML es el teléfono de Hugo
- * (0383 478-1774 → 543834781774). Es el único contacto público del sitio.
+ * NÚMERO TEMPORAL DE PRUEBA (549 383 403-7325): se usa durante las
+ * pruebas del formulario y de los CTAs. El número definitivo de Hugo
+ * (y el alternativo de su hermano) quedan pendientes de confirmación:
+ * al confirmarse se actualiza el contacto centralizado en data/site.ts.
  */
-export const WHATSAPP_NUMBER = "543834781774";
+export const WHATSAPP_NUMBER = site.contacts.primary.whatsappNumber;
+
+export const DIRECT_WHATSAPP_MESSAGES = {
+  floating: "Hola, ¿cómo están? Quisiera recibir información sobre ML Salón de Eventos y consultar por un evento.",
+  social: "Hola, llegué a través de la web de ML Salón de Eventos. Quisiera consultar por sus servicios y disponibilidad.",
+} as const;
+
+/** Un único punto para codificar todos los mensajes y construir wa.me. */
+function buildMessageWhatsAppUrl(message: string): string {
+  const number = WHATSAPP_NUMBER.replace(/\D/g, "");
+  if (!number) return "";
+  return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildDirectWhatsAppUrl(source: keyof typeof DIRECT_WHATSAPP_MESSAGES): string {
+  return buildMessageWhatsAppUrl(DIRECT_WHATSAPP_MESSAGES[source]);
+}
 
 export type WhatsAppOccasion =
   | "general"
@@ -20,7 +38,11 @@ export type WhatsAppOccasion =
   | "infantil"
   | "aireLibre";
 
-/** Mensajes contextuales por ocasión. */
+/**
+ * Mensajes contextuales por ocasión.
+ * Mantener coherentes los CTAs del sitio ("Consultar disponibilidad",
+ * "Solicitar presupuesto", "Consultar por WhatsApp").
+ */
 const OCCASION_MESSAGES: Record<WhatsAppOccasion, string> = {
   general: "Hola, quisiera consultar disponibilidad para un evento.",
   boda: "Hola, quisiera consultar disponibilidad para un casamiento.",
@@ -46,10 +68,7 @@ const OCCASION_MESSAGES: Record<WhatsAppOccasion, string> = {
 export function buildWhatsAppUrl(
   occasion: WhatsAppOccasion = "general",
 ): string {
-  const number = WHATSAPP_NUMBER.replace(/\D/g, "");
-  if (!number) return "";
-  const text = encodeURIComponent(OCCASION_MESSAGES[occasion]);
-  return `https://wa.me/${number}?text=${text}`;
+  return buildMessageWhatsAppUrl(OCCASION_MESSAGES[occasion]);
 }
 
 export type PrimaryContact = {
@@ -71,7 +90,7 @@ export function getPrimaryContact(
     return { href: whatsappUrl, channel: "whatsapp" };
   }
   return {
-    href: `tel:${site.contacts.hugo.phoneTel}`,
+    href: `tel:${site.contacts.primary.phoneTel}`,
     channel: "tel",
   };
 }
@@ -96,9 +115,9 @@ export const EVENT_TYPE_OPTIONS = [
   "Otro",
 ] as const;
 
-/** Planes de servicio consultables (detalle en data/servicios.ts). */
+/** Servicios consultables en el formulario (detalle en data/servicios.ts). */
 export const SERVICE_PLAN_OPTIONS = [
-  "Plan Esencial",
+  "Servicio Salón",
   "Experiencia María Luisa",
 ] as const;
 
@@ -115,6 +134,32 @@ export type EventInquiry = {
   servicio: string;
 };
 
+/** Valida también los valores que HTML required no detecta, como espacios. */
+export function validateInquiry(inquiry: EventInquiry): string | undefined {
+  if (inquiry.nombre.trim().split(/\s+/).length < 2) {
+    return "Ingresá tu nombre y apellido.";
+  }
+  if (!EVENT_TYPE_OPTIONS.some((option) => option === inquiry.tipoEvento)) {
+    return "Seleccioná un tipo de evento.";
+  }
+  const validDate = (value: string) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+    const date = new Date(`${value}T00:00:00Z`);
+    return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+  };
+  if (!validDate(inquiry.fechaPrincipal)) return "Ingresá una fecha principal válida.";
+  if (inquiry.fechaAlternativa && !validDate(inquiry.fechaAlternativa)) {
+    return "Ingresá una fecha alternativa válida.";
+  }
+  const guests = Number(inquiry.personas);
+  if (!Number.isSafeInteger(guests) || guests < 1) {
+    return "Ingresá una cantidad de invitados entera y mayor que cero.";
+  }
+  if (!SERVICE_PLAN_OPTIONS.some((option) => option === inquiry.servicio)) {
+    return "Seleccioná el servicio para tu evento.";
+  }
+}
+
 /**
  * Formatea una fecha ISO (yyyy-mm-dd) como dd/mm/aaaa.
  * Se separa manualmente para evitar desfases de zona horaria
@@ -129,28 +174,35 @@ export function formatDateEs(isoDate: string): string {
 /** Mensaje estructurado de la consulta, según la plantilla del brief. */
 export function buildInquiryMessage(inquiry: EventInquiry): string {
   return [
-    "Hola, quiero consultar disponibilidad para un evento.",
+    "¡Hola! Quiero consultar por un evento en ML Salón de Eventos.",
     "",
-    `Nombre: ${inquiry.nombre}`,
-    `Tipo de evento: ${inquiry.tipoEvento}`,
-    `Fecha principal: ${
+    "*DATOS DEL CLIENTE*",
+    `• Nombre y apellido: ${inquiry.nombre.trim().replace(/\s+/g, " ")}`,
+    `• Tipo de evento: ${inquiry.tipoEvento}`,
+    "",
+    "*DATOS DEL EVENTO*",
+    `• Fecha principal: ${
       inquiry.fechaPrincipal ? formatDateEs(inquiry.fechaPrincipal) : "A definir"
     }`,
-    `Fecha alternativa: ${
+    `• Fecha alternativa: ${
       inquiry.fechaAlternativa
         ? formatDateEs(inquiry.fechaAlternativa)
-        : "Sin fecha alternativa"
+        : "Sin definir"
     }`,
-    `Cantidad estimada de personas: ${inquiry.personas}`,
-    `Servicio: ${inquiry.servicio}`,
+    `• Cantidad de invitados: ${inquiry.personas}`,
+    "",
+    "*SERVICIO DE INTERÉS*",
+    `• ${inquiry.servicio}`,
+    "",
+    "Quisiera consultar disponibilidad para la fecha indicada y recibir información sobre el presupuesto.",
+    "",
+    "¡Gracias!",
   ].join("\n");
 }
 
 /** URL de wa.me con la consulta del formulario pre-cargada. */
 export function buildInquiryWhatsAppUrl(inquiry: EventInquiry): string {
-  const number = WHATSAPP_NUMBER.replace(/\D/g, "");
-  if (!number) return "";
-  const text = encodeURIComponent(buildInquiryMessage(inquiry));
-  return `https://wa.me/${number}?text=${text}`;
+  if (validateInquiry(inquiry)) return "";
+  return buildMessageWhatsAppUrl(buildInquiryMessage(inquiry));
 }
 

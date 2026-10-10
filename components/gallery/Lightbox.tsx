@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -29,6 +30,7 @@ export default function Lightbox({
   onStep,
 }: LightboxProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const item = items[active];
 
   useEffect(() => {
@@ -37,6 +39,18 @@ export default function Lightbox({
     closeRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Tab") {
+        const controls = dialogRef.current?.querySelectorAll<HTMLButtonElement>("button");
+        const first = controls?.[0];
+        const last = controls?.[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowRight") onStep(1);
       if (event.key === "ArrowLeft") onStep(-1);
@@ -49,8 +63,10 @@ export default function Lightbox({
     };
   }, [onClose, onStep]);
 
-  return (
+  // Se monta al abrir una foto; el portal evita los contextos de apilado de Reveal.
+  return createPortal(
     <motion.div
+      ref={dialogRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -73,45 +89,48 @@ export default function Lightbox({
           type="button"
           onClick={onClose}
           aria-label="Cerrar visor"
-          className="inline-flex h-10 w-10 items-center justify-center text-ivory transition-colors hover:text-gold"
+          className="inline-flex h-11 w-11 items-center justify-center text-ivory transition-colors hover:text-gold"
         >
           <X className="h-6 w-6" aria-hidden />
         </button>
       </div>
 
       <div
-        className="flex flex-1 items-center justify-center gap-2 px-2 pb-6 sm:gap-6 sm:px-8"
+        className="flex min-h-0 flex-1 items-center justify-center gap-2 px-2 pb-6 sm:gap-6 sm:px-8"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           onClick={() => onStep(-1)}
           aria-label="Fotografía anterior"
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center text-ivory/70 transition-colors hover:text-gold"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center text-ivory/70 transition-colors hover:text-gold"
         >
           <ChevronLeft className="h-7 w-7" aria-hidden />
         </button>
 
-        <Image
-          key={item.src}
-          src={item.src}
-          alt={item.alt}
-          width={item.width}
-          height={item.height}
-          priority
-          sizes="(min-width: 1024px) 80vw, 100vw"
-          className="h-auto max-h-[72vh] w-auto max-w-full object-contain"
-        />
+        <div className="flex min-w-0 flex-1 justify-center">
+          <Image
+            key={item.src}
+            src={item.src}
+            alt={item.alt}
+            width={item.width}
+            height={item.height}
+            preload
+            sizes="(min-width: 1024px) 80vw, 100vw"
+            className="h-auto max-h-[72vh] w-auto max-w-full object-contain"
+          />
+        </div>
 
         <button
           type="button"
           onClick={() => onStep(1)}
           aria-label="Fotografía siguiente"
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center text-ivory/70 transition-colors hover:text-gold"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center text-ivory/70 transition-colors hover:text-gold"
         >
           <ChevronRight className="h-7 w-7" aria-hidden />
         </button>
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }

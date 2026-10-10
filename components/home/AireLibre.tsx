@@ -8,13 +8,14 @@ import { navHref } from "@/data/navigation";
 /**
  * 06 — AIRE LIBRE. Sección clara que presenta el exterior del salón
  * (patio, parrilla y pileta) para eventos diurnos: las fotografías son
- * de día y el texto aclara que las noches transcurren en el interior.
+ * de día, las noches transcurren en el interior y la pileta depende de
+ * la disponibilidad de bañero y del presupuesto.
  */
 export default function AireLibre() {
   const promesas = [
     "Eventos diurnos: mediodía y tarde",
     "Parrilla y asadores para el clásico asado",
-    "Pileta con solárium para las piletadías",
+    "Pileta con solárium: uso diurno, sujeto a disponibilidad de bañero y presupuesto",
   ];
 
   return (
@@ -32,7 +33,9 @@ export default function AireLibre() {
                 El exterior del salón es el escenario ideal para los eventos
                 de día: cumpleaños y agasajos con asado, piletadía para los
                 más chicos y juntadas al sol. Las celebraciones nocturnas
-                transcurren en el interior del salón.
+                transcurren en el interior del salón, y el uso de la pileta
+                se coordina de día, según disponibilidad de bañero y
+                presupuesto.
               </p>
               <ul className="mt-8 space-y-2.5 text-sm text-ink/70">
                 {promesas.map((item) => (

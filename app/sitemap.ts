@@ -4,9 +4,10 @@ import { SITE_URL_BASE } from "@/lib/seo";
 /**
  * Sitemap del sitio (convención Next.js: MetadataRoute.Sitemap).
  * Páginas existentes hoy: Home (/) y Galería (/galeria).
- * Cuando se sumen /eventos y /contacto, agregarlas acá.
+ * Sin dominio público configurado, no se publican URLs provisionales.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (!SITE_URL_BASE) return [];
   const lastModified = new Date();
 
   return [

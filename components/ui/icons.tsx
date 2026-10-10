@@ -45,3 +45,12 @@ export function FacebookIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function WhatsAppIcon({ className }: IconProps) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" className={cn("h-4 w-4", className)} {...iconProps}>
+      <path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.6-4.6A9 9 0 1 1 21 11.5Z" />
+      <path d="m8 7 1.5 3-1 1c1 2 2 3 4 4l1-1 3 1.5c-.3 1.5-1.3 2-2.5 1.8C10 16.5 7.5 14 6.7 10 6.5 8.8 7 7.3 8 7Z" />
+    </svg>
+  );
+}

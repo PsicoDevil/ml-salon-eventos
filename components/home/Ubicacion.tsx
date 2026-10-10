@@ -15,10 +15,10 @@ export default function Ubicacion() {
 
   return (
     <section id="ubicacion" className="scroll-mt-24 bg-ivory">
-      <Container className="py-16 sm:py-20">
+      <Container className="py-10 sm:py-12">
         <Reveal>
-          <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
-            <div>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="min-w-0 max-w-3xl">
               <Kicker>Ubicación</Kicker>
               <h2 className="mt-3 font-display text-3xl font-medium leading-snug text-ink sm:text-4xl">
                 Camino al Dique <span className="italic">El Jumeal.</span>
@@ -33,7 +33,7 @@ export default function Ubicacion() {
               tone="light"
               size="sm"
               external
-              className="shrink-0 self-start sm:self-auto"
+              className="shrink-0 self-start lg:self-auto"
             >
               <MapPin className="h-4 w-4" aria-hidden />
               Abrir en Google Maps

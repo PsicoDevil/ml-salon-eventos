@@ -10,6 +10,7 @@ import type { WhatsAppOccasion } from "@/lib/whatsapp";
  * - Comuniones y bautismos comparten tarjeta: todavía no hay fotografía
  *   propia de la categoría, por lo que se usa una imagen editorial del
  *   salón con epígrafe honesto (sin simular ser otra cosa).
+ * - Corporativos usa la foto del discurso en recepción (aprobada).
  * - Los textos son aspiracionales pero no afirman servicios no confirmados.
  * - Cada slug corresponde a la futura ruta /eventos/[slug].
  * - Egresados sigue existiendo como categoría de la galería (/galeria).
@@ -74,7 +75,7 @@ export const occasions: Occasion[] = [
     label: "Fiestas infantiles",
     index: "04",
     description:
-      "Diversión a puro juego para los más chicos: toro mecánico, castillo inflable y juegos a cargo de animadores.",
+      "Diversión a puro juego para los más chicos: toro mecánico, castillo inflable y juegos.",
     whatsappOccasion: "infantil",
     photo: {
       src: "/images/cumpleanos/decoinfantil.jpg",
@@ -103,9 +104,9 @@ export const occasions: Occasion[] = [
       "Reuniones de trabajo con la logística resuelta y la presencia que la ocasión requiere.",
     whatsappOccasion: "corporativo",
     photo: {
-      src: "/images/corporativos/salon-gente.jpg",
-      alt: "Evento corporativo y empresarial en el salón",
-      ratio: "3 / 2",
+      src: "/images/evento-corporativo-discurso.png",
+      alt: "Recepción corporativa con un discurso entre las mesas del salón",
+      ratio: "16 / 9",
     },
   },
   {
@@ -113,7 +114,7 @@ export const occasions: Occasion[] = [
     label: "Eventos al aire libre",
     index: "07",
     description:
-      "Patio, parrilla y pileta: el exterior del salón para celebrar a cielo abierto.",
+      "Patio y parrilla para eventos diurnos. Pileta de uso diurno, sujeta a disponibilidad de bañero y presupuesto. Las celebraciones nocturnas se realizan en el interior.",
     whatsappOccasion: "aireLibre",
     photo: {
       src: "/images/aire-libre/piletadia.png",

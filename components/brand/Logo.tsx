@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 type LogoProps = {
   className?: string;
   size?: "sm" | "md" | "lg";
+  showWordmarkOnMobile?: boolean;
 };
 
 /**
@@ -19,7 +20,7 @@ const SIZE_CLASSES = {
   lg: { image: "h-12", monogram: "text-4xl", gap: "gap-6", rule: "h-9" },
 } as const;
 
-export default function Logo({ className, size = "md" }: LogoProps) {
+export default function Logo({ className, size = "md", showWordmarkOnMobile = false }: LogoProps) {
   const sizes = SIZE_CLASSES[size];
 
   if (brand.logoSrc) {
@@ -37,11 +38,11 @@ export default function Logo({ className, size = "md" }: LogoProps) {
   }
 
   return (
-    <span className={cn("inline-flex items-center", sizes.gap, className)}>
+    <span className={cn("inline-flex shrink-0 items-center", showWordmarkOnMobile ? "gap-4 sm:gap-6" : sizes.gap, className)}>
       <span
         className={cn(
           "font-display font-medium leading-none tracking-[0.08em]",
-          sizes.monogram,
+          showWordmarkOnMobile ? "text-3xl sm:text-4xl" : sizes.monogram,
         )}
       >
         {brand.monogram}
@@ -50,7 +51,7 @@ export default function Logo({ className, size = "md" }: LogoProps) {
         aria-hidden
         className={cn("w-px bg-gold/50", sizes.rule)}
       />
-      <span className="hidden flex-col leading-tight sm:flex">
+      <span className={cn("flex-col leading-relaxed", showWordmarkOnMobile ? "flex max-w-28 sm:max-w-none" : "hidden sm:flex")}>
         <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">
           {brand.wordmark}
         </span>

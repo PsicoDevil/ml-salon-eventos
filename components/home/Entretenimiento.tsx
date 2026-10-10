@@ -9,7 +9,6 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 
 /**
  * 09 — ENTRETENIMIENTO Y TECNOLOGÍA. Los rubros del servicio en fichas
@@ -46,7 +45,7 @@ const BLOQUES: Bloque[] = [
     detalle:
       "Videos y fotos del agasajado proyectados en el momento justo: la develación que siempre sorprende.",
     icono: MonitorPlay,
-    nota: "Pantalla LED: servicio adicional con costo extra.",
+    nota: "Pantalla para proyección incluida en la Experiencia María Luisa. Pantalla LED: adicional con costo extra.",
   },
   {
     id: "sonido",
@@ -101,7 +100,7 @@ export default function Entretenimiento() {
 
         <Reveal delay={0.2}>
           <div className="mt-12 flex justify-center">
-            <Button href={navHref("#contacto")} tone="light">
+            <Button href="#contacto" tone="light">
               Coordinar entretenimiento
             </Button>
           </div>

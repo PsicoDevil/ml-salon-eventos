@@ -12,7 +12,6 @@ import { navHref } from "@/data/navigation";
  */
 
 const PROMESAS = [
-  "Decoración personalizada con el nombre de la quinceañera",
   "Recepción, salón, exterior y mesa dulce en un mismo predio",
   "Coordinación de horarios con DJ, catering y brindis",
 ];

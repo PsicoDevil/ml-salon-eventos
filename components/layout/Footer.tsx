@@ -81,16 +81,16 @@ export default function Footer() {
                   className="inline-flex items-center gap-2 transition-colors hover:text-gold"
                 >
                   <MessageCircle className="h-3.5 w-3.5" aria-hidden />
-                  WhatsApp · {site.contacts.hugo.name}
+                  WhatsApp · {site.contacts.primary.name}
                 </a>
               </li>
               <li>
                 <a
-                  href={`tel:${site.contacts.hugo.phoneTel}`}
+                  href={`tel:${site.contacts.primary.phoneTel}`}
                   className="inline-flex items-center gap-2 transition-colors hover:text-gold"
                 >
                   <Phone className="h-3.5 w-3.5" aria-hidden />
-                  {site.contacts.hugo.phoneDisplay} · {site.contacts.hugo.name}
+                  {site.contacts.primary.phoneDisplay} · {site.contacts.primary.name}
                 </a>
               </li>
               <li>

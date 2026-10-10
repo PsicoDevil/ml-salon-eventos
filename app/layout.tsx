@@ -39,7 +39,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <MotionProvider>
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(venueJsonLd) }}
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(venueJsonLd).replace(/</g, "\\u003c"),
+            }}
           />
           <SkipLink />
           <Header />

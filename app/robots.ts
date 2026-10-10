@@ -11,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${SITE_URL_BASE}/sitemap.xml`,
+    ...(SITE_URL_BASE ? { sitemap: `${SITE_URL_BASE}/sitemap.xml` } : {}),
   };
 }

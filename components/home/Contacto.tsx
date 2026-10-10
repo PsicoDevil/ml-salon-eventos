@@ -43,11 +43,11 @@ export default function Contacto() {
                   <dt className={dtClasses}>Contactos</dt>
                   <dd className={ddClasses}>
                     <a
-                      href={`tel:${site.contacts.hugo.phoneTel}`}
+                      href={`tel:${site.contacts.primary.phoneTel}`}
                       className="block transition-colors hover:text-gold"
                     >
-                      {site.contacts.hugo.phoneDisplay} ·{" "}
-                      {site.contacts.hugo.name}
+                      {site.contacts.primary.phoneDisplay} ·{" "}
+                      {site.contacts.primary.name}
                     </a>
                     <a
                       href={`mailto:${site.email}`}

@@ -7,6 +7,7 @@ import {
   buildInquiryWhatsAppUrl,
   EVENT_TYPE_OPTIONS,
   SERVICE_PLAN_OPTIONS,
+  validateInquiry,
   type EventInquiry,
 } from "@/lib/whatsapp";
 
@@ -15,7 +16,7 @@ import {
  *
  * Sin backend: al enviar se abre wa.me con el mensaje estructurado de
  * lib/whatsapp.ts (plantilla fija del brief). Validación nativa HTML;
- * la fecha alternativa y la cantidad son opcionales.
+ * la fecha alternativa es opcional; los demás campos son obligatorios.
  */
 
 const labelClasses =
@@ -35,24 +36,33 @@ const initialForm: EventInquiry = {
 
 export default function ContactForm() {
   const [form, setForm] = useState<EventInquiry>(initialForm);
-  const [sent, setSent] = useState(false);
+  const [conversationOpened, setConversationOpened] = useState(false);
+  const [error, setError] = useState<string>();
 
   const update =
     (field: keyof EventInquiry) =>
     (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setForm((current) => ({ ...current, [field]: event.target.value }));
+      setError(undefined);
+      setConversationOpened(false);
     };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
+    const validationError = validateInquiry(form);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     const url = buildInquiryWhatsAppUrl(form);
     if (!url) return;
     window.open(url, "_blank", "noopener,noreferrer");
-    setSent(true);
+    setConversationOpened(true);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="text-left">
+    <form onSubmit={handleSubmit} className="text-left" aria-describedby={error ? "consulta-error" : undefined}>
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="consulta-nombre" className={labelClasses}>
@@ -132,13 +142,14 @@ export default function ContactForm() {
 
         <div>
           <label htmlFor="consulta-personas" className={labelClasses}>
-            Cantidad estimada de personas
+            Cantidad estimada de invitados
           </label>
           <input
             id="consulta-personas"
             name="personas"
             type="number"
             min={1}
+            step={1}
             inputMode="numeric"
             required
             placeholder="Ej.: 120"
@@ -185,13 +196,22 @@ export default function ContactForm() {
         </p>
       </div>
 
-      {sent && (
+      {error && (
+        <p id="consulta-error" role="alert" className="mt-6 text-sm text-ivory">
+          {error}
+        </p>
+      )}
+
+      {conversationOpened && (
         <p
           role="status"
           className="mt-6 border border-gold/30 bg-gold/10 px-4 py-3 font-sans text-sm text-ivory"
         >
-          Si WhatsApp no se abrió, escribinos directo al{" "}
-          {site.contacts.hugo.phoneDisplay}.
+          Confirmá el envío en WhatsApp. Si no se abrió,{" "}
+          <a href={buildInquiryWhatsAppUrl(form)} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
+            abrí tu consulta nuevamente
+          </a>{" "}
+          al {site.contacts.primary.phoneDisplay}.
         </p>
       )}
     </form>

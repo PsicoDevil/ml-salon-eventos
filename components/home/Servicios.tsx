@@ -7,9 +7,10 @@ import { navHref } from "@/data/navigation";
 import { planes } from "@/data/servicios";
 
 /**
- * 07 — SERVICIOS. Los dos planes de ML (data/servicios.ts) en tarjetas
- * editoriales: Plan Esencial y Experiencia María Luisa (destacada).
- * Sin precios: los presupuestos se cierran por WhatsApp.
+ * 07 — SERVICIOS. Los dos servicios de ML (data/servicios.ts) en tarjetas
+ * editoriales: Servicio Salón y Experiencia María Luisa (destacada).
+ * Sin precios: los presupuestos se cierran por WhatsApp. Nota visible
+ * abajo: pantalla de proyección incluida vs. pantalla LED con costo extra.
  */
 export default function Servicios() {
   return (
@@ -23,15 +24,15 @@ export default function Servicios() {
               <span className="italic">una misma dedicación.</span>
             </h2>
             <p className="mt-6 text-base leading-relaxed text-ink/70 sm:text-lg">
-              Elegí el plan que mejor acompañe tu fecha. Los presupuestos se
-              arman a medida para cada evento: consultá por WhatsApp.
+              Elegí el servicio que mejor acompañe tu fecha. Los presupuestos
+              se arman a medida para cada evento: consultá por WhatsApp.
             </p>
           </div>
         </Reveal>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {planes.map((plan, index) => (
-            <Reveal key={plan.id} delay={index * 0.12}>
+            <Reveal key={plan.id} delay={index * 0.12} className="min-w-0">
               <article
                 className={`flex h-full flex-col border p-7 sm:p-10 ${
                   plan.featured
@@ -39,8 +40,8 @@ export default function Servicios() {
                     : "border-ink/10 bg-ivory"
                 }`}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
+                <div className="flex flex-col items-start justify-between gap-4 xl:flex-row">
+                  <div className="min-w-0">
                     <Kicker as="p">{plan.kicker}</Kicker>
                     <h3 className="mt-3 font-display text-3xl font-medium leading-tight text-ink">
                       {plan.name}
@@ -83,6 +84,15 @@ export default function Servicios() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.16}>
+          <p className="mt-8 max-w-2xl text-sm leading-relaxed text-ink/60">
+            La <span className="font-semibold text-ink">pantalla para proyección</span>{" "}
+            está incluida en la Experiencia María Luisa. La{" "}
+            <span className="font-semibold text-ink">pantalla LED</span> es un
+            servicio adicional con costo extra.
+          </p>
+        </Reveal>
       </Container>
     </section>
   );

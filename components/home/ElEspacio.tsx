@@ -10,7 +10,9 @@ import { getMapsUrl } from "@/lib/maps";
  * 04 — EL ESPACIO. Composición fotográfica editorial: una única imagen
  * protagonista a gran escala con el texto superpuesto en su zona baja
  * (velo carbón muy sutil + blur, solo detrás del texto). Sin tarjetas,
- * sin collage, sin grilla: la fotografía protagoniza.
+ * sin collage, sin grilla: la fotografía protagoniza. Debajo de la
+ * dirección, micro-línea con las instalaciones confirmadas (salón,
+ * patio con parrilla y pileta de uso diurno).
  */
 export default function ElEspacio() {
   const { street, reference, city, province } = site.address;
@@ -43,6 +45,9 @@ export default function ElEspacio() {
                   {street} · {reference}
                   <br />
                   {city}, {province}
+                </p>
+                <p className="mt-4 font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-ivory/60">
+                  Salón interior · Patio con parrilla · Pileta de uso diurno
                 </p>
                 <Button
                   href={getMapsUrl()}
