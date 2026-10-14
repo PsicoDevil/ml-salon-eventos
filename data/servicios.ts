@@ -54,7 +54,7 @@ export const planes: Plan[] = [
       "Hasta 2 vinos por mesa de adultos",
       "DJ",
       "Animación",
-      "Pantalla para proyección (incluida)",
+      "Pantalla para proyección (opcional)",
     ],
     featured: true,
   },

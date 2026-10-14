@@ -3,7 +3,6 @@ import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 
 /**
  * 06 — AIRE LIBRE. Sección clara que presenta el exterior del salón
@@ -49,7 +48,7 @@ export default function AireLibre() {
                 ))}
               </ul>
               <div className="mt-10">
-                <Button href={navHref("#contacto")} tone="light">
+                <Button href="#contacto" tone="light">
                   Consultar disponibilidad
                 </Button>
               </div>

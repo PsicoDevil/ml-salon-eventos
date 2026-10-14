@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import Kicker from "@/components/ui/Kicker";
@@ -25,6 +26,7 @@ type MobileMenuProps = {
  * cierra; el backdrop cierra al tocar fuera. Animación corta y discreta.
  */
 export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps) {
+  const pathname = usePathname();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -136,7 +138,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
               </Kicker>
               <SocialLinks className="mt-3" />
               <Button
-                href={navHref("#contacto")}
+                href={pathname === "/" ? "#contacto" : navHref("#contacto")}
                 onClick={onClose}
                 className="mt-5 w-full"
               >

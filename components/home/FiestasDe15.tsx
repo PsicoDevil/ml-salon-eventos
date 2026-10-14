@@ -3,7 +3,6 @@ import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 
 /**
  * 03 — FIESTAS DE 15. Sección insignia (carbón + grano) que abre el
@@ -87,7 +86,7 @@ export default function FiestasDe15() {
 
             <Reveal delay={0.1}>
               <div className="mt-10">
-                <Button href={navHref("#contacto")}>
+                <Button href="#contacto">
                   Consultar disponibilidad
                 </Button>
               </div>

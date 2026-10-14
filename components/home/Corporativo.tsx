@@ -3,7 +3,6 @@ import Container from "@/components/ui/Container";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
 import Kicker from "@/components/ui/Kicker";
-import { navHref } from "@/data/navigation";
 
 /**
  * 07 — CORPORATIVO. Compacto: una fotografía potente + texto breve +
@@ -38,7 +37,7 @@ export default function Corporativo() {
               tenés en mente.
             </p>
             <div className="mt-8">
-              <Button href={navHref("#contacto")}>
+              <Button href="#contacto">
                 Solicitar presupuesto
               </Button>
             </div>

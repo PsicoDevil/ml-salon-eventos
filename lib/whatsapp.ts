@@ -40,8 +40,8 @@ export type WhatsAppOccasion =
 
 /**
  * Mensajes contextuales por ocasión.
- * Mantener coherentes los CTAs del sitio ("Consultar disponibilidad",
- * "Solicitar presupuesto", "Consultar por WhatsApp").
+ * Solo para accesos directos a WhatsApp; disponibilidad y presupuesto
+ * llevan al formulario de contacto.
  */
 const OCCASION_MESSAGES: Record<WhatsAppOccasion, string> = {
   general: "Hola, quisiera consultar disponibilidad para un evento.",

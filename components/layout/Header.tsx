@@ -128,7 +128,7 @@ export default function Header() {
           </div>
           <div className="hidden md:block">
             <Button
-              href={navHref("#contacto")}
+              href={pathname === "/" ? "#contacto" : navHref("#contacto")}
               size="sm"
               className="min-h-11 whitespace-nowrap border border-gold/40 hover:border-gold"
             >

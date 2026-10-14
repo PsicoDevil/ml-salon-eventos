@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Hairline from "@/components/ui/Hairline";
 import Reveal from "@/components/ui/Reveal";
 import GalleryCollection from "@/components/gallery/GalleryCollection";
 import { galleryCollection } from "@/data/galeria";
-import { getPrimaryContact } from "@/lib/whatsapp";
+import { navHref } from "@/data/navigation";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -19,12 +20,6 @@ export const metadata: Metadata = buildPageMetadata({
  * filtros por categoría + composición masonry + lightbox accesible.
  */
 export default function GaleriaPage() {
-  const contact = getPrimaryContact("general");
-  const externalProps =
-    contact.channel === "whatsapp"
-      ? { target: "_blank" as const, rel: "noopener noreferrer" }
-      : {};
-
   return (
     <div className="bg-ivory">
       <Container className="pb-10 pt-32 sm:pt-40">
@@ -55,9 +50,8 @@ export default function GaleriaPage() {
             <p className="max-w-md font-display text-2xl italic leading-snug text-ink sm:text-3xl">
               ¿Te imaginás tu celebración acá?
             </p>
-            <a
-              href={contact.href}
-              {...externalProps}
+            <Link
+              href={navHref("#contacto")}
               className="group inline-flex items-center gap-4 self-start text-xs font-semibold uppercase tracking-[0.22em] text-ink transition-colors duration-300 hover:text-violet sm:self-auto"
             >
               <span
@@ -65,7 +59,7 @@ export default function GaleriaPage() {
                 className="h-px w-8 bg-gold transition-all duration-300 group-hover:w-14"
               />
               Consultar disponibilidad
-            </a>
+            </Link>
           </div>
         </Reveal>
       </Container>

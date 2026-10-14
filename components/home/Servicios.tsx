@@ -3,7 +3,6 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 import { planes } from "@/data/servicios";
 
 /**
@@ -74,7 +73,7 @@ export default function Servicios() {
                 </ul>
 
                 <div className="mt-10 border-t border-ink/10 pt-6">
-                  <Button href={navHref("#contacto")} tone="light" size="sm">
+                  <Button href="#contacto" tone="light" size="sm">
                     {plan.featured
                       ? "Solicitar presupuesto"
                       : "Consultar disponibilidad"}
@@ -84,15 +83,6 @@ export default function Servicios() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal delay={0.16}>
-          <p className="mt-8 max-w-2xl text-sm leading-relaxed text-ink/60">
-            La <span className="font-semibold text-ink">pantalla para proyección</span>{" "}
-            está incluida en la Experiencia María Luisa. La{" "}
-            <span className="font-semibold text-ink">pantalla LED</span> es un
-            servicio adicional con costo extra.
-          </p>
-        </Reveal>
       </Container>
     </section>
   );

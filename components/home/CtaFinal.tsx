@@ -2,7 +2,6 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Reveal from "@/components/ui/Reveal";
-import { navHref } from "@/data/navigation";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 /**
@@ -41,7 +40,7 @@ export default function CtaFinal() {
 
         <Reveal delay={0.24}>
           <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button href={navHref("#contacto")}>
+            <Button href="#contacto">
               Solicitar presupuesto
             </Button>
             <Button
