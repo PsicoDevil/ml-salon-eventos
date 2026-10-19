@@ -39,7 +39,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 El número temporal `5493834037325` se configura únicamente en
 `data/site.ts`, en `contacts.primary.whatsappNumber`. Los teléfonos
-definitivos de Hugo y de su hermano quedan pendientes de confirmación.
+confirmados de Hugo y Walter se muestran solo en el footer; su publicación
+no cambia el destinatario temporal de WhatsApp.
 Los mensajes del flotante, los iconos sociales y el formulario se generan
 en `lib/whatsapp.ts`. La web abre una conversación; el visitante confirma
 y envía el mensaje desde WhatsApp.
@@ -86,3 +87,22 @@ Con esos datos podemos revisar tu consulta y orientarte sobre las opciones dispo
 
 ¡Te leemos!
 ```
+
+## Generador operativo de presupuestos
+
+Acceso directo: `/gestion/presupuestos`. No aparece en la navegación pública ni en el sitemap. Tiene `noindex` y se excluye en robots; estas medidas no son control de acceso. No tiene autenticación: cualquier persona que conozca o descubra la URL puede abrirla. No colocar secretos en el código cliente.
+
+Los datos se mantienen solamente en el estado React de la pestaña. No se envían al servidor, no hay backend de presupuestos, base de datos, cookies, localStorage ni recuperación de borradores. Recargar o cerrar descarta el formulario. Los PDF que el usuario descargue o comparta sí quedan bajo el control del dispositivo o de la aplicación de destino.
+
+1. Completar cliente, evento, servicio y datos de tarjetas. El nombre comercial es siempre **MARÍA LUISA**, centralizado en `data/brand.ts`: no se solicita ni se puede editar. Los precios de tarjetas y los datos personales empiezan vacíos. El importe separado del servicio comienza en 0: representa que no se agrega un cargo distinto de las tarjetas.
+2. Elegir la modalidad: cantidad de tarjetas a valor completo × precio unitario; total de tarjetas acordado; o solo servicio, sin tarjetas. La cantidad general de invitados es informativa y no sustituye la cantidad explícita de tarjetas. En modo acordado, el precio unitario es solo referencia y el importe manual prevalece. No hay campos ni cálculos por edades: para grupos con distintas tarifas, cargar el total acordado. La política se incluye como aclaración fija.
+3. Elegir el servicio contratado (visible sin desplegar otro bloque). Cargar su importe separado solo si corresponde; dejar 0 si ya está cubierto por las tarjetas. Se suman una sola vez tarjetas, servicio y adicionales, y se resta una sola vez el descuento manual. No se admite un descuento mayor al subtotal. Los cálculos usan centavos enteros. La fórmula activa y los campos faltantes se muestran en pantalla; cambiar de modalidad no suma valores de la modalidad anterior.
+4. Revisar el borrador y pulsar «Preparar vista previa del PDF». El documento A4 incluye la política de edades y solo incorpora pago, vigencia y observaciones si se completaron. Se pagina automáticamente; cualquier edición invalida la vista PDF anterior.
+5. Descargar PDF o usar «Imprimir presupuesto» para imprimir solo el documento, con estilos A4 en blanco y negro. El PDF incluye enlaces a Google Maps. La impresión de un presupuesto incompleto queda bloqueada.
+6. Para compartir, revisar el mensaje con cliente, evento, fecha, invitados (si se indicaron) y total. Abrir WhatsApp sin destinatario prefijado o usar el selector nativo de archivos cuando el navegador lo admita. Si no admite compartir archivos, se descarga el PDF y se solicita abrir WhatsApp para adjuntarlo manualmente; si se bloquea la apertura, queda disponible el enlace explícito. No se envían mensajes ni se adjuntan archivos automáticamente. La disponibilidad real de Web Share depende del navegador, HTTPS y de las aplicaciones del dispositivo.
+
+El PDF vectorial se genera en el cliente, sin librerías nuevas ni servicios remotos. Incluye el logo dorado proporcionado por el usuario (`public/images/brand/maria-luisa-logo.png`), el nombre fijo MARÍA LUISA, tipografía PDF estándar y tonos marfil/azul/dorado. El logo se incorpora como imagen compacta en el PDF; los textos y tablas siguen siendo vectoriales. Los datos e importes de documentos de referencia no se precargan como valores comerciales.
+
+Datos comerciales pendientes: opciones concretas del plato principal, precios, condiciones de pago y vigencia (estos últimos se ingresan por presupuesto). Robot o espejo mágico requiere confirmar disponibilidad. Los nuevos teléfonos de Hugo y Walter se muestran solo en el footer y no sustituyen el destinatario temporal de WhatsApp de la web pública.
+
+Comprobación de la lógica sin dependencias adicionales: `node scripts/check-presupuestos.mjs`.

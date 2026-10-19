@@ -8,6 +8,7 @@
  * No inventar ni rediseñar el logo.
  */
 export const brand = {
+  commercialName: "MARÍA LUISA",
   logoSrc: "",
   logoAlt: "ML Salón de Eventos",
   monogram: "ML",

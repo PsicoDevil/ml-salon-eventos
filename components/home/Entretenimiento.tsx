@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Reveal from "@/components/ui/Reveal";
+import { adicionales, complementoPremium } from "@/data/servicios";
 
 /**
  * 09 — ENTRETENIMIENTO Y TECNOLOGÍA. Los rubros del servicio en fichas
@@ -97,6 +98,17 @@ export default function Entretenimiento() {
             );
           })}
         </div>
+
+        <Reveal>
+          <div className="mt-10 border border-gold/40 p-6 sm:p-7">
+            <h3 className="font-display text-2xl text-ink">Adicionales con costo extra</h3>
+            <p className="mt-3 text-sm leading-relaxed text-ink/70">Se presupuestan por separado y no están incluidos en la Experiencia María Luisa.</p>
+            <ul className="mt-5 grid gap-3 text-sm text-ink/80 sm:grid-cols-2">
+              {adicionales.map((item) => <li key={item.id}>• {item.nombre}</li>)}
+            </ul>
+            <p className="mt-6 border-t border-ink/10 pt-5 text-sm leading-relaxed text-ink/70">{complementoPremium}</p>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.2}>
           <div className="mt-12 flex justify-center">

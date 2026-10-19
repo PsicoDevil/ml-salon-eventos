@@ -1,0 +1,31 @@
+.quote-print-warning { display: none; }
+@page quote-budget { size: A4; margin: 14mm 13mm; }
+@media print {
+  body:has(.quote-builder) { page: quote-budget; display: block; height: auto; background: white; color: #172c3b; }
+  body:has(.quote-builder) > header,
+  body:has(.quote-builder) > footer,
+  body:has(.quote-builder) > a,
+  body:has(.quote-builder) nextjs-portal,
+  .quote-builder .quote-noprint { display: none !important; }
+  .quote-builder, .quote-builder > div, .quote-preview-section { margin: 0 !important; padding: 0 !important; max-width: none !important; width: 100% !important; background: white !important; }
+  .quote-builder .quote-document { margin: 0; border: 0; max-width: none; font-size: 9pt; background: white; color: #172c3b; }
+  .quote-document .qd-header { padding: 8pt 0; break-inside: avoid; }
+  .quote-document .qd-heading { margin-bottom: 8pt; }
+  .quote-document .qd-logo { width: 66pt; height: 66pt; }
+  .quote-document .qd-eyebrow { margin-top: 12pt; font-size: 25pt; }
+  .quote-document h3 { font-size: 23pt; }
+  .quote-document .qd-body { padding: 0; }
+  .quote-document .qd-section { margin-top: 10pt; }
+  .quote-document h4 { padding: 6pt 9pt; font-size: 16pt; break-after: avoid; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .quote-document table { font-size: 9pt; }
+  .quote-document tr { break-inside: avoid; }
+  .quote-document .qd-note { break-before: avoid; break-inside: avoid; }
+  .quote-document th, .quote-document td { padding: 6pt 8pt; font-size: 9pt; }
+  .quote-document .qd-total th, .quote-document .qd-total td { padding-block: 8pt; font-size: 13pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .quote-document .qd-quiet { padding: 8pt 10pt; break-inside: avoid; }
+  .quote-document .qd-quiet h4 { font-size: 8.5pt; }
+  .quote-document .qd-quiet th, .quote-document .qd-quiet td, .quote-document .qd-note { font-size: 8.5pt; }
+  .quote-document .qd-footer { margin: 12pt 0 0; padding: 10pt 0 0; font-size: 8pt; break-inside: avoid; }
+  .quote-builder[data-valid="false"] .quote-document { display: none !important; }
+  .quote-builder[data-valid="false"] .quote-print-warning { display: block; font-size: 12pt; }
+}

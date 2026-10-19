@@ -4,46 +4,13 @@ import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
 import Photo from "@/components/ui/Photo";
 import Reveal from "@/components/ui/Reveal";
+import { catering as PASOS, bebidas as BEBIDAS } from "@/data/servicios";
 
 /**
  * 08 — CATERING. La secuencia gastronómica del evento (recepción →
  * plato principal → postre → fin de fiesta) más el bloque de bebidas.
  * El menú y la selección exacta se definen en el asesoramiento previo.
  */
-
-/** Secuencia gastronómica del evento. */
-const PASOS = [
-  {
-    paso: "01",
-    titulo: "Recepción",
-    detalle:
-      "La primera etapa del catering tradicional completo, para recibir a tus invitados.",
-  },
-  {
-    paso: "02",
-    titulo: "Plato principal",
-    detalle:
-      "El plato principal del catering tradicional, como parte de la celebración.",
-  },
-  {
-    paso: "03",
-    titulo: "Postre",
-    detalle:
-      "El momento dulce del menú, incluido en el catering tradicional completo.",
-  },
-  {
-    paso: "04",
-    titulo: "Fin de fiesta",
-    detalle:
-      "Comida de fin de fiesta para acompañar el cierre de la celebración.",
-  },
-];
-
-/** Rubros de bebidas del servicio. */
-const BEBIDAS = [
-  "Línea Coca-Cola, agua y soda",
-  "Hasta 2 vinos por mesa de adultos",
-];
 
 export default function Catering() {
   return (
@@ -59,7 +26,7 @@ export default function Catering() {
               </h2>
               <p className="mt-6 max-w-md text-base leading-relaxed text-ivory/75 sm:text-lg">
                 La Experiencia María Luisa incluye catering tradicional
-                completo, de la recepción a la comida de fin de fiesta. El menú se
+                completo, de la recepción a la comida de cierre. El menú se
                 define en el asesoramiento previo a tu evento.
               </p>
             </Reveal>
@@ -105,7 +72,7 @@ export default function Catering() {
                 <div className="flex items-center gap-3">
                   <Wine className="h-4 w-4 text-gold" aria-hidden="true" />
                   <Kicker as="p" tone="dark">
-                    Bebidas
+                    Bebidas y barra
                   </Kicker>
                 </div>
                 <ul className="mt-4 space-y-2.5 text-sm text-ivory/70">

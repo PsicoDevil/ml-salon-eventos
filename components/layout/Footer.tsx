@@ -73,6 +73,14 @@ export default function Footer() {
               Contacto
             </Kicker>
             <ul className="mt-5 space-y-3 text-sm text-ivory/70">
+              {site.contacts.publicPhones.map((contact) => (
+                <li key={contact.name}>
+                  <a href={`tel:${contact.phoneTel}`} className="inline-flex items-center gap-2 transition-colors hover:text-gold">
+                    <Phone className="h-3.5 w-3.5" aria-hidden />
+                    {contact.name} · {contact.phoneDisplay}
+                  </a>
+                </li>
+              ))}
               <li>
                 <a
                   href={buildWhatsAppUrl("general")}

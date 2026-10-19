@@ -8,8 +8,8 @@
  * - Facebook: página oficial "ML Salón de Eventos" (id 100086731144154,
  *   "ML Salón de Eventos | San Fernando del Valle de Catamarca").
  *
- * El contacto público es temporal. Los teléfonos definitivos de Hugo
- * y de su hermano quedan pendientes de confirmación.
+ * El destinatario de WhatsApp sigue siendo el temporal de prueba.
+ * Los teléfonos personales confirmados se muestran únicamente al pie.
  */
 
 export const site = {
@@ -27,6 +27,10 @@ export const site = {
     postalCode: "", // Pendiente de confirmación — no inventar.
   },
   contacts: {
+    publicPhones: [
+      { name: "Hugo", phoneDisplay: "3834 781774", phoneTel: "3834781774" },
+      { name: "Walter", phoneDisplay: "3834 653348", phoneTel: "3834653348" },
+    ],
     primary: {
       name: "Contacto temporal de prueba",
       whatsappNumber: "5493834037325",
@@ -39,6 +43,7 @@ export const site = {
     },
   },
   email: "hmelo77@hotmail.com",
+  mapsUrl: 'https://www.google.com/maps/place/Salon+de+eventos+ML+%22Mar%C3%ADa+Luisa%22/data=!4m2!3m1!1s0x0:0x91cb18b2f5ff9718?sa=X&ved=1t:2428&ictx=111',
   social: {
     instagram: {
       handle: "@ml_salondeeventos",

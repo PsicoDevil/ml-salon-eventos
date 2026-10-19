@@ -8,8 +8,7 @@ import { planes } from "@/data/servicios";
 /**
  * 07 — SERVICIOS. Los dos servicios de ML (data/servicios.ts) en tarjetas
  * editoriales: Servicio Salón y Experiencia María Luisa (destacada).
- * Sin precios: los presupuestos se cierran por WhatsApp. Nota visible
- * abajo: pantalla de proyección incluida vs. pantalla LED con costo extra.
+ * Sin precios: los presupuestos se cierran por WhatsApp.
  */
 export default function Servicios() {
   return (

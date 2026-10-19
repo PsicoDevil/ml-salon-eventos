@@ -8,7 +8,7 @@
  *   ambientación y entretenimiento.
  * - La pantalla para proyección está INCLUIDA en la Experiencia María
  *   Luisa; la pantalla LED es un servicio adicional con costo extra
- *   (aclaración visible en components/home/Servicios.tsx).
+ *   (ver los adicionales de entretenimiento).
  * Los precios se cierran por presupuesto en WhatsApp: no se muestran.
  */
 
@@ -49,13 +49,35 @@ export const planes: Plan[] = [
       "Decoración premium",
       "Vajilla completa",
       "Mantelería",
-      "Catering tradicional completo: recepción, plato principal, postre y comida de fin de fiesta",
+      "Catering tradicional completo: recepción, plato principal, postre y comida de cierre",
       "Bebidas: línea Coca-Cola, agua y soda",
       "Hasta 2 vinos por mesa de adultos",
       "DJ",
       "Animación",
-      "Pantalla para proyección (opcional)",
+      "Luces y sonido",
+      "Pantalla para proyección (incluida)",
+      "Barra de tragos y cerveza tirada tipo chopp",
     ],
     featured: true,
   },
 ];
+
+/** Propuesta confirmada; los platos principales se definen en el asesoramiento. */
+export const catering = [
+  { paso: "01", titulo: "Recepción", detalle: "Tartaletas y mesa de fiambres." },
+  { paso: "02", titulo: "Plato principal", detalle: "El plato principal del catering tradicional, como parte de la celebración. Las opciones se definen en el asesoramiento previo." },
+  { paso: "03", titulo: "Postre", detalle: "Helado o alternativa a elección." },
+  { paso: "04", titulo: "Comida de cierre", detalle: "Pata flambeada o variedad de pizzas." },
+] as const;
+
+export const bebidas = ["Línea Coca-Cola, agua y soda", "Hasta 2 vinos por mesa de adultos", "Barra de tragos", "Cerveza tirada tipo chopp"] as const;
+export const complementoPremium = "Una sorpresa para tu celebración: consultá por la opción de robot o espejo mágico en la Experiencia María Luisa. Disponibilidad a confirmar.";
+
+/** No incluidos: los importes se presupuestan manualmente. */
+export const adicionales = [
+  { id: "pantalla-led", nombre: "Pantalla LED" },
+  { id: "bar-glitter", nombre: "Bar Glitter" },
+  { id: "pista-led", nombre: "Pista LED" },
+  { id: "fotocabina", nombre: "Fotocabina" },
+  { id: "foto-video", nombre: "Paquete premium de fotografía y video" },
+] as const;

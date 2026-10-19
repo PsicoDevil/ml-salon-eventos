@@ -4,9 +4,8 @@ import { site } from "@/data/site";
  * Número de WhatsApp en formato internacional, solo dígitos (sin "+").
  *
  * NÚMERO TEMPORAL DE PRUEBA (549 383 403-7325): se usa durante las
- * pruebas del formulario y de los CTAs. El número definitivo de Hugo
- * (y el alternativo de su hermano) quedan pendientes de confirmación:
- * al confirmarse se actualiza el contacto centralizado en data/site.ts.
+ * pruebas del formulario y de los CTAs. Los teléfonos confirmados de
+ * Hugo y Walter se muestran solo al pie; no sustituyen este destinatario.
  */
 export const WHATSAPP_NUMBER = site.contacts.primary.whatsappNumber;
 
@@ -24,6 +23,11 @@ function buildMessageWhatsAppUrl(message: string): string {
 
 export function buildDirectWhatsAppUrl(source: keyof typeof DIRECT_WHATSAPP_MESSAGES): string {
   return buildMessageWhatsAppUrl(DIRECT_WHATSAPP_MESSAGES[source]);
+}
+
+/** Compartir un presupuesto: el usuario elige destinatario dentro de WhatsApp. */
+export function buildRecipientlessWhatsAppUrl(message: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(message)}`;
 }
 
 export type WhatsAppOccasion =

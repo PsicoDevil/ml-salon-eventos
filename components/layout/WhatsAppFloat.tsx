@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { buildDirectWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/cn";
@@ -13,6 +14,7 @@ import { cn } from "@/lib/cn";
  * No renderiza nada si el número no estuviera configurado.
  */
 export default function WhatsAppFloat() {
+  const pathname = usePathname();
   const href = buildDirectWhatsAppUrl("floating");
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [obstructed, setObstructed] = useState(false);
@@ -53,7 +55,7 @@ export default function WhatsAppFloat() {
     };
   }, []);
 
-  if (!href) return null;
+  if (!href || pathname.startsWith("/gestion/")) return null;
 
   return (
     <a
