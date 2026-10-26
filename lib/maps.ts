@@ -1,7 +1,7 @@
 import { site } from "@/data/site";
 
 /**
- * Enlace de Google Maps provisto por el cliente y centralizado en data/site.ts.
+ * Búsqueda de la dirección confirmada y centralizada en data/site.ts, sin coordenadas.
  */
 export function getMapsUrl(): string {
   return site.mapsUrl;

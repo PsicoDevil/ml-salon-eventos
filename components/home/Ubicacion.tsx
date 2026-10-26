@@ -11,7 +11,7 @@ import { getMapsUrl } from "@/lib/maps";
  * Google Maps construido sin coordenadas inventadas (lib/maps.ts).
  */
 export default function Ubicacion() {
-  const { street, reference, city, province, country } = site.address;
+  const { street, full } = site.address;
 
   return (
     <section id="ubicacion" className="scroll-mt-24 bg-ivory">
@@ -21,10 +21,10 @@ export default function Ubicacion() {
             <div className="min-w-0 max-w-3xl">
               <Kicker>Ubicación</Kicker>
               <h2 className="mt-3 font-display text-3xl font-medium leading-snug text-ink sm:text-4xl">
-                Camino al Dique <span className="italic">El Jumeal.</span>
+                {street}.
               </h2>
               <address className="mt-4 text-sm not-italic leading-relaxed text-ink/65">
-                {street} · {reference} — {city}, {province}, {country}
+                {full}
               </address>
             </div>
             <Button

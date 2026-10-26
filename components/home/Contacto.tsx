@@ -11,7 +11,7 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
  * confirmados (teléfono, email, redes verificadas, ubicación).
  */
 export default function Contacto() {
-  const { street, reference, city, province } = site.address;
+  const { street, postalCode, city, province, country } = site.address;
 
   const dtClasses =
     "text-[11px] font-semibold uppercase tracking-[0.24em] text-gold";
@@ -61,9 +61,9 @@ export default function Contacto() {
                 <div>
                   <dt className={dtClasses}>Ubicación</dt>
                   <dd className={ddClasses}>
-                    {street} · {reference}
+                    {street},
                     <br />
-                    {city}, {province}
+                    {postalCode} {city}, {province}, {country}.
                   </dd>
                 </div>
 

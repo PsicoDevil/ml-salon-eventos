@@ -26,7 +26,7 @@ export default function FiestasDe15() {
           <div className="lg:col-span-6">
             <Reveal>
               <Photo
-                src="/images/quince/entradaquincenera.jpg"
+                src="/images/quince/entradaquincenera-192d60b00a59.jpg"
                 alt="Entrada de la quinceañera a su fiesta de 15 en ML Salón de Eventos"
                 ratio="16 / 9"
                 sizes="(min-width: 1024px) 50vw, 100vw"

@@ -2,7 +2,7 @@ import { Wine } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Kicker from "@/components/ui/Kicker";
-import Photo from "@/components/ui/Photo";
+import CateringCarousel from "@/components/home/CateringCarousel";
 import Reveal from "@/components/ui/Reveal";
 import { catering as PASOS, bebidas as BEBIDAS } from "@/data/servicios";
 
@@ -59,14 +59,7 @@ export default function Catering() {
 
           <div className="lg:col-span-6">
             <Reveal delay={0.1}>
-              <Photo
-                src="/images/celebraciones/comida-mesa.jpg"
-                alt="La mesa servida durante la celebración en ML Salón de Eventos"
-                ratio="4 / 3"
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="group"
-                imageClassName="motion-safe:transition-transform motion-safe:duration-700 group-hover:scale-[1.02]"
-              />
+              <CateringCarousel />
 
               <div className="mt-6 border border-ivory/15 p-6 sm:p-7">
                 <div className="flex items-center gap-3">

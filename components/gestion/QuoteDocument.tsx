@@ -18,6 +18,6 @@ export default function QuoteDocument({ quote, result }: { quote: Quote; result:
       </tr>)}</tbody></table>
       {section.note && <p className="qd-note">{section.note}</p>}
     </section>)}</div>
-    <footer className="qd-footer"><p>{document.address}</p><a href={document.mapsUrl} target="_blank" rel="noopener noreferrer">Ver ubicación en Google Maps</a><p>Presupuesto comercial · Importes en pesos argentinos</p></footer>
+    <footer className="qd-footer"><p>Presupuesto comercial · Importes en pesos argentinos</p></footer>
   </article>;
 }

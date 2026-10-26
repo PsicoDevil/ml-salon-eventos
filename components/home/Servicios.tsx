@@ -47,7 +47,7 @@ export default function Servicios() {
                   </div>
                   {plan.featured && (
                     <span className="shrink-0 bg-violet px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.18em] text-ivory">
-                      Servicio insignia
+                      Servicio completo
                     </span>
                   )}
                 </div>

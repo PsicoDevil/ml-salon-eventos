@@ -39,8 +39,8 @@ export const occasions: Occasion[] = [
       "La noche más esperada: entrada triunfal, ambientación personalizada y cada detalle a la altura de la quinceañera.",
     whatsappOccasion: "quince",
     photo: {
-      src: "/images/quince/entradaquincenera.jpg",
-      alt: "Entrada de la quinceañera a su fiesta de 15 en ML Salón de Eventos",
+      src: "/images/quince/deco-2.png",
+      alt: "Ambientación de fiesta de 15 con letras XV luminosas en ML Salón de Eventos",
       ratio: "16 / 9",
     },
   },
@@ -52,7 +52,7 @@ export const occasions: Occasion[] = [
       "El día más esperado, celebrado con la elegancia que la ocasión merece.",
     whatsappOccasion: "boda",
     photo: {
-      src: "/images/bodas/bodadeco.jpg",
+      src: "/images/salon/salondec.png",
       alt: "Casamiento ambientado en ML Salón de Eventos",
       ratio: "4 / 3",
     },
@@ -65,7 +65,7 @@ export const occasions: Occasion[] = [
       "Cada año merece su celebración. Cada cumpleaños encuentra su forma.",
     whatsappOccasion: "cumpleanos",
     photo: {
-      src: "/images/cumpleanos/cumplenina.jpg",
+      src: "/images/cumpleanos/cumplenina.png",
       alt: "Cumpleaños celebrado en ML Salón de Eventos",
       ratio: "4 / 3",
     },
@@ -78,7 +78,7 @@ export const occasions: Occasion[] = [
       "Diversión a puro juego para los más chicos: toro mecánico, castillo inflable y juegos.",
     whatsappOccasion: "infantil",
     photo: {
-      src: "/images/cumpleanos/decoinfantil.jpg",
+      src: "/images/cumpleanos/decoinfantil.png",
       alt: "Decoración de una fiesta infantil en el salón",
       ratio: "3 / 2",
     },

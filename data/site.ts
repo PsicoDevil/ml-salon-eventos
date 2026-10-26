@@ -17,14 +17,16 @@ export const site = {
   shortName: "ML",
   claim: "El lugar donde tu celebración toma forma.",
   description:
-    "ML Salón de Eventos: salón de eventos y salón de fiestas en Catamarca, camino al Dique El Jumeal. Fiestas de 15, casamientos, cumpleaños, fiestas infantiles, comuniones y bautismos, eventos corporativos y celebraciones al aire libre con pileta. Consultá disponibilidad y presupuesto.",
+    "ML Salón de Eventos: salón de eventos y salón de fiestas en Catamarca, en Av. Bartolomé de Castro 2100. Fiestas de 15, casamientos, cumpleaños, fiestas infantiles, comuniones y bautismos, eventos corporativos y celebraciones al aire libre con pileta. Consultá disponibilidad y presupuesto.",
   address: {
-    street: "Bartolomé de Castro S/N",
-    reference: "Camino al Dique El Jumeal",
+    street: "Av. Bartolomé de Castro 2100",
     city: "San Fernando del Valle de Catamarca",
     province: "Catamarca",
     country: "Argentina",
-    postalCode: "", // Pendiente de confirmación — no inventar.
+    postalCode: "K4700",
+    get full(): string {
+      return `${this.street}, ${this.postalCode} ${this.city}, ${this.province}, ${this.country}.`;
+    },
   },
   contacts: {
     publicPhones: [
@@ -43,7 +45,9 @@ export const site = {
     },
   },
   email: "hmelo77@hotmail.com",
-  mapsUrl: 'https://www.google.com/maps/place/Salon+de+eventos+ML+%22Mar%C3%ADa+Luisa%22/data=!4m2!3m1!1s0x0:0x91cb18b2f5ff9718?sa=X&ved=1t:2428&ictx=111',
+  get mapsUrl(): string {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.address.full.slice(0, -1))}`;
+  },
   social: {
     instagram: {
       handle: "@ml_salondeeventos",

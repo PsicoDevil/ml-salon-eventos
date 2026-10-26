@@ -15,11 +15,11 @@ import { getMapsUrl } from "@/lib/maps";
  * patio con parrilla y pileta de uso diurno).
  */
 export default function ElEspacio() {
-  const { street, reference, city, province } = site.address;
+  const { street, postalCode, city, province, country } = site.address;
 
   return (
     <section id="el-espacio" className="grain scroll-mt-24 bg-carbon text-ivory">
-      <Container className="py-20 sm:py-28">
+      <Container className="py-14 max-sm:px-4 sm:py-28">
         <Reveal>
           <div className="relative">
             <Photo
@@ -36,17 +36,17 @@ export default function ElEspacio() {
                 del texto). Mobile: fluye bajo la imagen sobre el carbón
                 de la sección, siempre perfectamente legible. */}
             <div className="relative z-10 sm:absolute sm:inset-x-0 sm:bottom-0">
-              <div className="bg-carbon/60 pb-2 pt-8 backdrop-blur-md sm:mb-10 sm:ml-10 sm:mr-auto sm:max-w-md sm:bg-carbon/45 sm:p-8 sm:pb-0 sm:pt-0 sm:backdrop-blur-sm lg:mb-14 lg:ml-14">
+              <div className="pt-7 sm:mb-10 sm:ml-10 sm:mr-auto sm:max-w-md sm:bg-carbon/45 sm:p-8 sm:pb-0 sm:pt-0 sm:backdrop-blur-sm lg:mb-14 lg:ml-14">
                 <Kicker tone="dark">El espacio</Kicker>
                 <h2 className="mt-4 font-display text-5xl font-medium leading-[1.04] sm:text-6xl">
                   Este es <span className="italic">el lugar.</span>
                 </h2>
-                <p className="mt-6 max-w-xs text-sm leading-relaxed text-ivory/80">
-                  {street} · {reference}
+                <p className="mt-6 text-[15px] leading-7 text-ivory/80 sm:max-w-xs sm:text-sm sm:leading-relaxed">
+                  {street},
                   <br />
-                  {city}, {province}
+                  {postalCode} {city}, {province}, {country}.
                 </p>
-                <p className="mt-4 font-sans text-[11px] font-medium uppercase tracking-[0.22em] text-ivory/60">
+                <p className="mt-5 font-sans text-[11px] font-medium uppercase leading-relaxed tracking-[0.18em] text-ivory/60 sm:mt-4 sm:leading-normal sm:tracking-[0.22em]">
                   Salón interior · Patio con parrilla · Pileta de uso diurno
                 </p>
                 <Button
@@ -55,7 +55,7 @@ export default function ElEspacio() {
                   tone="dark"
                   size="sm"
                   external
-                  className="mt-5"
+                  className="mt-6 max-sm:min-h-11 sm:mt-5"
                 >
                   Cómo llegar
                 </Button>

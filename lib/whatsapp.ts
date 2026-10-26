@@ -9,9 +9,27 @@ import { site } from "@/data/site";
  */
 export const WHATSAPP_NUMBER = site.contacts.primary.whatsappNumber;
 
+/** Plantilla editable de los accesos directos; independiente del formulario. */
+const DIRECT_INQUIRY_MESSAGE = [
+  "¡Hola! Quisiera consultar disponibilidad para un evento en MARÍA LUISA.",
+  "",
+  "Mis datos para la consulta:",
+  "",
+  "- Nombre y apellido: [Ingresar]",
+  "- Tipo de evento: [Boda, 15s, Evento, Corporativo, Otro]",
+  "- Fecha principal: [Día Preferencial]",
+  "- Fecha alternativa: [Día Alternativo]",
+  "- Cantidad estimada de invitados: [Cantidad Total]",
+  "- Servicio: [Servicio Salón / Servicio Completo]",
+  "",
+  "Quisiera recibir información sobre disponibilidad y presupuesto para mi evento.",
+  "",
+  "¡Muchas gracias!",
+].join("\n");
+
 export const DIRECT_WHATSAPP_MESSAGES = {
-  floating: "Hola, ¿cómo están? Quisiera recibir información sobre ML Salón de Eventos y consultar por un evento.",
-  social: "Hola, llegué a través de la web de ML Salón de Eventos. Quisiera consultar por sus servicios y disponibilidad.",
+  floating: DIRECT_INQUIRY_MESSAGE,
+  social: DIRECT_INQUIRY_MESSAGE,
 } as const;
 
 /** Un único punto para codificar todos los mensajes y construir wa.me. */
@@ -43,26 +61,21 @@ export type WhatsAppOccasion =
   | "aireLibre";
 
 /**
- * Mensajes contextuales por ocasión.
+ * Plantilla de consulta para todos los accesos directos por ocasión.
  * Solo para accesos directos a WhatsApp; disponibilidad y presupuesto
  * llevan al formulario de contacto.
  */
 const OCCASION_MESSAGES: Record<WhatsAppOccasion, string> = {
-  general: "Hola, quisiera consultar disponibilidad para un evento.",
-  boda: "Hola, quisiera consultar disponibilidad para un casamiento.",
-  quince: "Hola, quisiera consultar disponibilidad para una fiesta de 15.",
-  egresados:
-    "Hola, quisiera consultar disponibilidad para una fiesta de egresados.",
-  cumpleanos: "Hola, quisiera consultar disponibilidad para un cumpleaños.",
-  bautismo: "Hola, quisiera consultar disponibilidad para un bautismo.",
-  comunion:
-    "Hola, quisiera consultar disponibilidad para una comunión o bautismo.",
-  corporativo:
-    "Hola, quisiera consultar disponibilidad para un evento corporativo o empresarial.",
-  infantil:
-    "Hola, quisiera consultar disponibilidad para una fiesta infantil.",
-  aireLibre:
-    "Hola, quisiera consultar disponibilidad para un evento al aire libre.",
+  general: DIRECT_INQUIRY_MESSAGE,
+  boda: DIRECT_INQUIRY_MESSAGE,
+  quince: DIRECT_INQUIRY_MESSAGE,
+  egresados: DIRECT_INQUIRY_MESSAGE,
+  cumpleanos: DIRECT_INQUIRY_MESSAGE,
+  bautismo: DIRECT_INQUIRY_MESSAGE,
+  comunion: DIRECT_INQUIRY_MESSAGE,
+  corporativo: DIRECT_INQUIRY_MESSAGE,
+  infantil: DIRECT_INQUIRY_MESSAGE,
+  aireLibre: DIRECT_INQUIRY_MESSAGE,
 };
 
 /**
@@ -122,7 +135,7 @@ export const EVENT_TYPE_OPTIONS = [
 /** Servicios consultables en el formulario (detalle en data/servicios.ts). */
 export const SERVICE_PLAN_OPTIONS = [
   "Servicio Salón",
-  "Experiencia María Luisa",
+  "Servicio Completo",
 ] as const;
 
 export type EventInquiry = {
@@ -178,29 +191,22 @@ export function formatDateEs(isoDate: string): string {
 /** Mensaje estructurado de la consulta, según la plantilla del brief. */
 export function buildInquiryMessage(inquiry: EventInquiry): string {
   return [
-    "¡Hola! Quiero consultar por un evento en ML Salón de Eventos.",
+    "¡Hola! Quisiera consultar disponibilidad para un evento en MARÍA LUISA.",
     "",
-    "*DATOS DEL CLIENTE*",
-    `• Nombre y apellido: ${inquiry.nombre.trim().replace(/\s+/g, " ")}`,
-    `• Tipo de evento: ${inquiry.tipoEvento}`,
+    "*Mis datos para la consulta:*",
     "",
-    "*DATOS DEL EVENTO*",
-    `• Fecha principal: ${
-      inquiry.fechaPrincipal ? formatDateEs(inquiry.fechaPrincipal) : "A definir"
-    }`,
-    `• Fecha alternativa: ${
-      inquiry.fechaAlternativa
-        ? formatDateEs(inquiry.fechaAlternativa)
-        : "Sin definir"
-    }`,
-    `• Cantidad de invitados: ${inquiry.personas}`,
+    `• *Nombre y apellido:* ${inquiry.nombre.trim().replace(/\s+/g, " ")}`,
+    `• *Tipo de evento:* ${inquiry.tipoEvento}`,
+    `• *Fecha principal:* ${formatDateEs(inquiry.fechaPrincipal)}`,
+    ...(inquiry.fechaAlternativa.trim()
+      ? [`• *Fecha alternativa:* ${formatDateEs(inquiry.fechaAlternativa)}`]
+      : []),
+    `• *Cantidad estimada de invitados:* ${inquiry.personas}`,
+    `• *Servicio:* ${inquiry.servicio}`,
     "",
-    "*SERVICIO DE INTERÉS*",
-    `• ${inquiry.servicio}`,
+    "Quisiera recibir información sobre disponibilidad y presupuesto para mi evento.",
     "",
-    "Quisiera consultar disponibilidad para la fecha indicada y recibir información sobre el presupuesto.",
-    "",
-    "¡Gracias!",
+    "¡Muchas gracias!",
   ].join("\n");
 }
 

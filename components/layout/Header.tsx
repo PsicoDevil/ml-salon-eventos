@@ -81,7 +81,7 @@ export default function Header() {
           : "site-header-scrim border-b border-gold/20",
       )}
     >
-      <div className="mx-auto flex h-20 w-full max-w-[1600px] items-center justify-between gap-4 px-5 sm:gap-8 sm:px-10 lg:px-12 min-[1440px]:h-[88px]">
+      <div className="mx-auto flex h-20 w-full max-w-[1600px] items-center justify-between gap-2 px-4 sm:gap-8 sm:px-10 lg:px-12 min-[1440px]:h-[88px]">
         <Link
           href="/"
           aria-label={`${site.name} — Inicio`}
@@ -122,11 +122,11 @@ export default function Header() {
           </ul>
         </nav>
 
-        <div className="flex shrink-0 items-center gap-4">
-          <div className="hidden border-l border-ivory/15 pl-5 min-[1440px]:block">
-            <SocialLinks className="gap-2" />
+        <div className="flex shrink-0 items-center gap-1 sm:gap-4">
+          <div className="min-[1440px]:border-l min-[1440px]:border-ivory/15 min-[1440px]:pl-5">
+            <SocialLinks variant="header" />
           </div>
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Button
               href={pathname === "/" ? "#contacto" : navHref("#contacto")}
               size="sm"

@@ -18,7 +18,7 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
  */
 export default function Footer() {
   const year = new Date().getFullYear();
-  const { street, reference, city, province, country } = site.address;
+  const { street, postalCode, city, province, country } = site.address;
 
   return (
     <footer className="scroll-mt-24 bg-carbon text-ivory">
@@ -58,13 +58,11 @@ export default function Footer() {
               Ubicación
             </Kicker>
             <address className="mt-5 text-sm not-italic leading-relaxed text-ivory/70">
-              {street}
+              {street},
               <br />
-              {reference}
+              {postalCode} {city},
               <br />
-              {city}
-              <br />
-              {province} · {country}
+              {province}, {country}.
             </address>
           </div>
 

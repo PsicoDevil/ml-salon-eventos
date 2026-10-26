@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/gestion/",
+      disallow: ["/gestion/", "/presupuestoml"],
     },
     ...(SITE_URL_BASE ? { sitemap: `${SITE_URL_BASE}/sitemap.xml` } : {}),
   };

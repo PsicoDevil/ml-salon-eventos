@@ -51,13 +51,13 @@ const KEYWORDS = [
   "eventos corporativos Catamarca",
   "eventos al aire libre Catamarca",
   "salón con pileta Catamarca",
-  "Dique El Jumeal",
+  "Av. Bartolomé de Castro 2100",
 ];
 
 /** Imagen OG editorial: fotografía real de una fiesta de 15 (16:9). */
-const OG_IMAGE = "/images/quince/entradaquincenera.jpg";
-const OG_IMAGE_WIDTH = 2048;
-const OG_IMAGE_HEIGHT = 1152;
+const OG_IMAGE = "/images/quince/entradaquincenera-192d60b00a59.jpg";
+const OG_IMAGE_WIDTH = 1365;
+const OG_IMAGE_HEIGHT = 768;
 const OG_IMAGE_ALT = `Fiesta de 15 en ${site.name}, salón de eventos en Catamarca`;
 
 /** Metadatos raíz: usar solo en app/layout.tsx. */
@@ -134,7 +134,7 @@ export function buildPageMetadata(options: {
  * Se inyecta como script en app/layout.tsx.
  */
 export function buildVenueJsonLd(): Record<string, unknown> {
-  const { street, city, province, country } = site.address;
+  const { street, postalCode, city, province, country } = site.address;
   return {
     "@context": "https://schema.org",
     "@type": "EventVenue",
@@ -146,6 +146,7 @@ export function buildVenueJsonLd(): Record<string, unknown> {
     address: {
       "@type": "PostalAddress",
       streetAddress: street,
+      postalCode,
       addressLocality: city,
       addressRegion: province,
       addressCountry: country,

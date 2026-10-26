@@ -43,7 +43,7 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
         toggleRef.current?.focus();
       } else if (event.key === "Tab") {
         const links = Array.from(panelRef.current?.querySelectorAll<HTMLElement>("a[href], button") ?? []);
-        const controls = [toggleRef.current, ...links].filter((element): element is HTMLElement => element !== null);
+        const controls = [toggleRef.current, ...links, document.getElementById("whatsapp-floating")].filter((element): element is HTMLElement => element !== null);
         const first = controls[0];
         const last = controls[controls.length - 1];
         if (event.shiftKey && document.activeElement === first) {
@@ -91,12 +91,13 @@ export default function MobileMenu({ open, onClose, toggleRef }: MobileMenuProps
             ref={panelRef}
             role="dialog"
             aria-modal="true"
+            aria-owns="whatsapp-floating"
             aria-label="Menú de navegación"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: EASE_OUT_EXPO }}
-            className="fixed inset-x-4 top-24 z-[45] max-h-[calc(100dvh-7rem)] overflow-y-auto overscroll-contain border border-gold/25 bg-carbon sm:left-auto sm:right-10 sm:w-96 lg:right-12 min-[1440px]:hidden"
+            className="fixed inset-x-4 top-24 z-[45] max-h-[calc(100dvh-12rem-env(safe-area-inset-bottom))] overflow-y-auto overscroll-contain border border-gold/25 bg-carbon sm:left-auto sm:right-10 sm:max-h-[calc(100dvh-7rem)] sm:w-96 lg:right-12 min-[1440px]:hidden"
           >
             <nav aria-label="Navegación mobile">
               <ul className="divide-y divide-ivory/10 px-2 py-2">

@@ -1,7 +1,6 @@
 import { brand } from "@/data/brand";
 import { bebidas, catering, complementoPremium, planes } from "@/data/servicios";
-import { site } from "@/data/site";
-import { AGE_POLICY, calculateQuote, cardsExplanation, money, quoteDate, quoteEconomicRows, type Quote } from "@/lib/presupuestos";
+import { AGE_POLICY, calculateQuote, financingRows, money, quoteDate, quoteEconomicRows, type Quote } from "@/lib/presupuestos";
 
 export const QUOTE_LOGO = "/images/brand/maria-luisa-logo.png";
 
@@ -13,14 +12,12 @@ export function quoteDocument(quote: Quote, result = calculateQuote(quote)) {
   const plan = planes.find((item) => item.id === quote.service);
   const sections: DocumentSection[] = [];
   const data: DocumentRow[] = [{ label: "Cliente", value: quote.client.trim() || "Pendiente" }];
-  if (result.guests !== undefined) data.push({ label: "Invitados (referencia)", value: String(result.guests) });
-  if (result.cardsQuantity !== undefined) data.push({ label: "Tarjetas a valor completo", value: String(result.cardsQuantity) });
-  if (result.ticket !== undefined) data.push({ label: quote.cardsMode === "calculated" ? "Tarjeta por persona" : "Precio unitario de referencia", value: `${result.errors.ticket ? "Pendiente" : money(result.ticket)}${quote.cardsMode === "agreed" ? " · Informativo; no se suma al total." : ""}` });
+  if (result.guests !== undefined) data.push({ label: "Cantidad de personas", value: String(result.guests) });
+  if (!quote.cardsNotApplicable && result.pricePerPerson !== undefined) data.push({ label: "Precio por persona", value: money(result.pricePerPerson) });
   sections.push({ title: "Datos del evento", rows: data });
   sections.push({ title: "Valores del servicio", rows: [
     { label: "Servicio contratado", value: plan?.name ?? "Pendiente" },
-    ...(result.hasCards ? [{ label: quote.cardsMode === "calculated" ? "Cálculo de tarjetas" : "Total acordado de tarjetas", value: cardsExplanation(quote, result) }] : []),
-    { label: "Importe separado del servicio", value: result.errors.serviceAmount ? "Pendiente" : result.hasCards && result.service === 0 ? "Cubierto por las tarjetas · $ 0,00 adicionales" : money(result.service), monetary: result.service !== 0 || !result.hasCards },
+    ...(result.includeService ? [{ label: "Precio del servicio", value: result.errors.serviceAmount ? "Pendiente" : money(result.service), monetary: true }] : []),
     ...(quote.payment.trim() ? [{ label: "Condiciones de pago", value: quote.payment.trim() }] : []),
   ] });
 
@@ -38,10 +35,11 @@ export function quoteDocument(quote: Quote, result = calculateQuote(quote)) {
   }
   if (included.length) sections.push({ title: "El servicio incluye", rows: included, ...(plan?.featured ? { note: complementoPremium } : {}) });
   if (result.extras.length) sections.push({ title: "Adicionales con costo extra", rows: result.extras.map((extra) => ({ label: extra.name.trim() || "Adicional", value: result.errors[`${extra.id}-amount`] ? "Pendiente" : money(extra.cents), monetary: true })) });
-  sections.push({ title: "Resumen de importes", rows: [
+  sections.push({ title: result.isManualTotal ? "Desglose de referencia" : "Resumen de importes", rows: [
     ...quoteEconomicRows(result).map((item) => ({ label: item.label, value: item.pending ? "Pendiente" : money(item.amount), monetary: true })),
-    { label: "TOTAL FINAL", value: result.amountsReady ? money(result.total) : "Pendiente", monetary: true, total: true },
-  ], ...(!result.extras.length ? { note: "Sin adicionales seleccionados." } : {}) });
+    { label: result.totalLabel.toUpperCase(), value: result.amountsReady ? money(result.total) : "Pendiente", monetary: true, total: true },
+  ], ...(result.isManualTotal ? { note: "El desglose es una referencia. El total final acordado reemplaza el cálculo automático; no se vuelven a sumar sus conceptos." } : quote.cardsNotApplicable ? { note: "No corresponden tarjetas; importe confirmado en $0." } : quote.cardsAmount !== null ? { note: "Total de tarjetas ajustado según las condiciones acordadas." } : !result.extras.length ? { note: "Sin adicionales seleccionados." } : {}) });
+  if (result.financing) sections.push({ title: "Financiación", rows: financingRows(result).map((row) => ({ ...row, monetary: true })), note: "Forma de pago del importe indicado; no se suma al total del presupuesto." });
   sections.push({ title: "Política de edades", quiet: true, rows: AGE_POLICY.map((value) => ({ label: "", value })) });
   if (quote.validity.trim() || quote.notes.trim()) sections.push({ title: "Vigencia y observaciones", quiet: true, rows: [
     ...(quote.validity.trim() ? [{ label: "Vigencia", value: quote.validity.trim() }] : []),
@@ -52,7 +50,5 @@ export function quoteDocument(quote: Quote, result = calculateQuote(quote)) {
     event: quote.event.trim() || "Evento a confirmar",
     schedule: [quoteDate(quote.date), quote.time.trim()].filter(Boolean).join(" · "),
     sections,
-    address: [site.address.street, site.address.reference, site.address.city, site.address.province, site.address.country].join(", "),
-    mapsUrl: site.mapsUrl,
   };
 }

@@ -1,5 +1,4 @@
 import { brand } from "@/data/brand";
-import { site } from "@/data/site";
 import { calculateQuote, type Quote } from "@/lib/presupuestos";
 import { QUOTE_LOGO, quoteDocument } from "@/lib/presupuesto-documento";
 
@@ -21,7 +20,7 @@ export async function loadQuoteLogo(): Promise<PdfLogo> {
 
 type Item = { kind: "section" | "text" | "row" | "total"; lines: string[]; values?: string[]; height: number; monetary?: boolean; quiet?: boolean; column?: boolean };
 
-/** PDF A4 vectorial: datos temporales, paginación y enlace de ubicación. */
+/** PDF comercial A4: datos temporales, logo y paginación. */
 export function createQuotePdf(quote: Quote, logo?: PdfLogo): Blob {
   const result = calculateQuote(quote);
   const documentData = quoteDocument(quote, result);
@@ -173,12 +172,9 @@ export function createQuotePdf(quote: Quote, logo?: PdfLogo): Blob {
       }
       y += item.height;
     }
-    const address = [site.address.street, site.address.reference, site.address.city, site.address.province, site.address.country].join(", ");
-    commands.push(`0.6 G 0.4 w ${margin} 62 m ${width - margin} 62 l S`);
-    wrap(address, contentWidth, 7.5).forEach((line, index) => text(line, margin, height - 49 + index * 10, 7.5));
-    text("Ver ubicación en Google Maps", margin, height - 20, 7.5, "F1", "0.25 0.2 0.12");
-    text("Importes en pesos argentinos", width - margin - 210, height - 20, 7);
-    text(`${pageIndex + 1} / ${pages.length}`, width - margin - 30, height - 20, 8);
+    commands.push(`0.6 G 0.4 w ${margin} 45 m ${width - margin} 45 l S`);
+    text("Presupuesto comercial · Importes en pesos argentinos", margin, height - 24, 7.5);
+    text(`${pageIndex + 1} / ${pages.length}`, width - margin - 30, height - 24, 8);
     streams.push(commands.join("\n"));
   }
   const objects: string[] = [
@@ -195,11 +191,10 @@ export function createQuotePdf(quote: Quote, logo?: PdfLogo): Blob {
   }
   const children: number[] = [];
   for (const stream of streams) {
-    const pageId = objects.length + 1, streamId = pageId + 1, linkId = pageId + 2;
+    const pageId = objects.length + 1, streamId = pageId + 1;
     children.push(pageId);
-    objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> ${logoId ? `/XObject << /Logo ${logoId} 0 R >>` : ""} >> /Contents ${streamId} 0 R /Annots [${linkId} 0 R] >>`);
+    objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R >> ${logoId ? `/XObject << /Logo ${logoId} 0 R >>` : ""} >> /Contents ${streamId} 0 R >>`);
     objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
-    objects.push(`<< /Type /Annot /Subtype /Link /Rect [${margin} 17 ${margin + 145} 30] /Border [0 0 0] /A << /S /URI /URI (${encode(site.mapsUrl)}) >> >>`);
   }
   objects[1] = `<< /Type /Pages /Count ${pages.length} /Kids [${children.map((id) => `${id} 0 R`).join(" ")}] >>`;
   // ASCII con caracteres escapados: offsets y longitudes exactos en bytes.

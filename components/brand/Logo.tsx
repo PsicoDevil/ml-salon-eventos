@@ -38,7 +38,7 @@ export default function Logo({ className, size = "md", showWordmarkOnMobile = fa
   }
 
   return (
-    <span className={cn("inline-flex shrink-0 items-center", showWordmarkOnMobile ? "gap-4 sm:gap-6" : sizes.gap, className)}>
+    <span className={cn("inline-flex shrink-0 items-center", showWordmarkOnMobile ? "gap-2.5 sm:gap-6" : sizes.gap, className)}>
       <span
         className={cn(
           "font-display font-medium leading-none tracking-[0.08em]",
@@ -51,8 +51,8 @@ export default function Logo({ className, size = "md", showWordmarkOnMobile = fa
         aria-hidden
         className={cn("w-px bg-gold/50", sizes.rule)}
       />
-      <span className={cn("flex-col leading-relaxed", showWordmarkOnMobile ? "flex max-w-28 sm:max-w-none" : "hidden sm:flex")}>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">
+      <span className={cn("flex-col leading-relaxed", showWordmarkOnMobile ? "flex max-w-22 sm:max-w-none" : "hidden sm:flex")}>
+        <span className={cn("font-semibold uppercase", showWordmarkOnMobile ? "text-[9px] tracking-[0.22em] sm:text-[10px] sm:tracking-[0.3em]" : "text-[10px] tracking-[0.3em]")}>
           {brand.wordmark}
         </span>
       </span>
