@@ -5,7 +5,7 @@ import { WhatsAppIcon } from "@/components/ui/icons";
 import { buildDirectWhatsAppUrl } from "@/lib/whatsapp";
 
 /**
- * CTA flotante de WhatsApp — contacto temporal centralizado en
+ * CTA flotante de WhatsApp — contacto de Hugo centralizado en
  * data/site.ts. Fijo abajo a la derecha, visible en todo el sitio
  * por encima del contenido, sin reubicaciones ni ocultación durante el scroll.
  * Verde reconocible, con área táctil amplia y contraste para el ícono.

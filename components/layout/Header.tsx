@@ -88,7 +88,7 @@ export default function Header() {
           onClick={closeMenu}
           className="relative z-[51] flex shrink-0 items-center"
         >
-          <Logo size="lg" showWordmarkOnMobile className="text-ivory" />
+          <Logo size="lg" variant="header" showWordmarkOnMobile className="text-ivory" />
         </Link>
 
         <nav aria-label="Navegación principal" className="hidden shrink-0 min-[1440px]:block">

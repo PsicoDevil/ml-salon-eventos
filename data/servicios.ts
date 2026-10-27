@@ -15,6 +15,7 @@
 export type Plan = {
   id: string;
   name: string;
+  selectionName?: string;
   kicker: string;
   description: string;
   features: string[];
@@ -41,6 +42,7 @@ export const planes: Plan[] = [
   {
     id: "experiencia-maria-luisa",
     name: "Experiencia María Luisa",
+    selectionName: "Servicio Completo",
     kicker: "La experiencia insignia de la casa",
     description:
       "Todo lo incluido en el Servicio Salón, más la gastronomía, la ambientación y el entretenimiento: el evento completo, de principio a fin.",
@@ -56,21 +58,22 @@ export const planes: Plan[] = [
       "Animación",
       "Luces y sonido",
       "Pantalla para proyección (incluida)",
-      "Barra de tragos y cerveza tirada tipo chopp",
+      "Barra de tragos: Fernet Branca y daiquiris",
+      "Cerveza tirada tipo chopp",
     ],
     featured: true,
   },
 ];
 
-/** Propuesta confirmada; los platos principales se definen en el asesoramiento. */
+/** Propuesta confirmada; las variantes se coordinan en el asesoramiento. */
 export const catering = [
-  { paso: "01", titulo: "Recepción", detalle: "Tartaletas y mesa de fiambres." },
-  { paso: "02", titulo: "Plato principal", detalle: "El plato principal del catering tradicional, como parte de la celebración. Las opciones se definen en el asesoramiento previo." },
+  { paso: "01", titulo: "Recepción", detalle: "Tartaletas, mesa de fiambres, cazuelas, sándwiches, empanadas, chipá y jesuitas." },
+  { paso: "02", titulo: "Plato principal", detalle: "Lomo, pollo o lomo de cerdo, con salsa y papas según las variantes del servicio. La elección se coordina en el asesoramiento previo." },
   { paso: "03", titulo: "Postre", detalle: "Helado o alternativa a elección." },
   { paso: "04", titulo: "Comida de cierre", detalle: "Pata flambeada o variedad de pizzas." },
 ] as const;
 
-export const bebidas = ["Línea Coca-Cola, agua y soda", "Hasta 2 vinos por mesa de adultos", "Barra de tragos", "Cerveza tirada tipo chopp"] as const;
+export const bebidas = ["Línea Coca-Cola", "Agua y soda", "Hasta 2 vinos por mesa de adultos", "Barra de tragos: Fernet Branca y daiquiris", "Cerveza tirada tipo chopp"] as const;
 export const complementoPremium = "Una sorpresa para tu celebración: consultá por la opción de robot o espejo mágico en la Experiencia María Luisa. Disponibilidad a confirmar.";
 
 /** No incluidos: los importes se presupuestan manualmente. */
@@ -78,6 +81,7 @@ export const adicionales = [
   { id: "pantalla-led", nombre: "Pantalla LED" },
   { id: "bar-glitter", nombre: "Bar Glitter" },
   { id: "pista-led", nombre: "Pista LED" },
-  { id: "fotocabina", nombre: "Fotocabina" },
+  { id: "espejo-magico", nombre: "Espejo mágico" },
   { id: "foto-video", nombre: "Paquete premium de fotografía y video" },
+  { id: "volcan-chispas", nombre: "Volcán de chispas" },
 ] as const;

@@ -7,15 +7,16 @@ export type Quote = {
   // null mantiene la base automática; un string, incluso vacío, es una edición manual.
   guests: string; pricePerPerson: string; cardsAmount: string | null; cardsNotApplicable: boolean;
   service: string; serviceAmount: string; includeService: boolean; discount: string;
+  includeVat: boolean;
   finalAmount: string | null; // null usa el cálculo automático; string reemplaza ese resultado.
-  installments: string; financingAmount: string | null; // null sigue el total vigente de tarjetas.
+  installments: string; financingAmount: string | null; // null sigue el total final vigente, incluido el IVA activo.
   payment: string; validity: string; notes: string; extras: QuoteExtra[];
 };
 
 export function emptyQuote(): Quote {
   return {
     client: "", event: "", date: "", time: "", guests: "", pricePerPerson: "", cardsAmount: null, cardsNotApplicable: false,
-    service: "", serviceAmount: "", includeService: false, discount: "", finalAmount: null, installments: "none", financingAmount: null,
+    service: "", serviceAmount: "", includeService: false, includeVat: false, discount: "", finalAmount: null, installments: "none", financingAmount: null,
     payment: "", validity: "", notes: "",
     extras: adicionales.map((item) => ({ id: item.id, name: item.nombre, amount: "" })),
   };
@@ -26,6 +27,9 @@ export const AGE_POLICY = [
   "De 4 a 11 años: abonan el 50 % del valor de la tarjeta.",
   "Desde los 12 años: abonan el valor completo de la tarjeta.",
 ] as const;
+
+/** Alícuota confirmada por el cliente; solo se aplica al activar la casilla. */
+export const VAT_RATE = 21;
 
 /** Todos los importes se calculan en centavos enteros. */
 export function cents(value: string): number | undefined {
@@ -92,16 +96,24 @@ export function calculateQuote(quote: Quote) {
   const subtotal = cards + service + extraTotal;
   if (![cards, extraTotal, subtotal].every(Number.isSafeInteger)) errors.total = "Los valores exceden el rango de cálculo seguro.";
   if (discount > subtotal) errors.discount = "El descuento no puede superar el subtotal.";
-  const automaticReady = !Object.keys(errors).some((key) => ["cardsAmount", "serviceAmount", "discount", "total"].includes(key) || key.endsWith("-amount"));
-  const automaticTotal = Math.max(0, subtotal - discount);
+  const automaticBase = Math.max(0, subtotal - discount);
+  const includeVat = quote.includeVat === true;
+  // Redondeo comercial a centavos, sin multiplicaciones imprecisas de grandes importes.
+  const vatFor = (base: number) => includeVat && Number.isSafeInteger(base) && base >= 0
+    ? Number((BigInt(base) * BigInt(VAT_RATE) + BigInt(50)) / BigInt(100)) : 0;
+  const automaticTotal = automaticBase + vatFor(automaticBase);
   const isManualTotal = quote.finalAmount !== null;
   const manualTotal = quote.finalAmount === null ? undefined : cents(quote.finalAmount);
   if (isManualTotal && manualTotal === undefined) errors.finalAmount = "Ingresá un total final acordado válido y no negativo. Un campo vacío no equivale a cero.";
+  const vatBase = isManualTotal ? manualTotal ?? 0 : automaticBase;
+  const vat = vatFor(vatBase);
+  const total = vatBase + vat;
+  if (![automaticTotal, vatBase, vat, total].every(Number.isSafeInteger)) errors.total = "Los valores exceden el rango de cálculo seguro.";
+  const automaticReady = !Object.keys(errors).some((key) => ["cardsAmount", "serviceAmount", "discount", "total"].includes(key) || key.endsWith("-amount"));
   const amountsReady = automaticReady && !errors.finalAmount;
-  const total = isManualTotal ? manualTotal ?? 0 : automaticTotal;
-  const totalLabel = isManualTotal ? "Total final acordado" : "Total final";
-  const manualMismatch = isManualTotal && amountsReady && total !== automaticTotal;
-  const financingAmount = quote.financingAmount === null ? (amountsReady ? cards : undefined) : cents(quote.financingAmount);
+  const totalLabel = `${isManualTotal ? "Total final acordado" : "Total final"}${includeVat ? " con IVA" : ""}`;
+  const manualMismatch = isManualTotal && amountsReady && vatBase !== automaticBase;
+  const financingAmount = quote.financingAmount === null ? (amountsReady ? total : undefined) : cents(quote.financingAmount);
   if (quote.installments !== "none" && financingAmount === undefined && quote.financingAmount !== null) errors.financingAmount = "Ingresá un importe a financiar válido. Un campo vacío no equivale a cero.";
   let financing: { count: number; regular: number; last: number; total: number } | undefined;
   if (amountsReady && !errors.installments && financingAmount !== undefined && quote.installments !== "none") {
@@ -111,7 +123,7 @@ export function calculateQuote(quote: Quote) {
     if (financingAmount - regular * (count - 1) < 0) regular = Math.floor(financingAmount / count);
     financing = { count, regular, last: financingAmount - regular * (count - 1), total: financingAmount };
   }
-  return { errors, valid: Object.keys(errors).length === 0, amountsReady, automaticReady, automaticTotal, isManualTotal, manualMismatch, totalLabel, guests, pricePerPerson, automaticCards, cards, cardsPending: !!errors.cardsAmount, includeService: quote.includeService, service, extras, extraTotal, discount, total, financingAmount, financing };
+  return { errors, valid: Object.keys(errors).length === 0, amountsReady, automaticReady, automaticBase, automaticTotal, isManualTotal, manualMismatch, totalLabel, guests, pricePerPerson, automaticCards, cards, cardsPending: !!errors.cardsAmount, includeService: quote.includeService, service, extras, extraTotal, discount, includeVat, vatBase, vat, total, financingAmount, financing };
 }
 
 /** Único desglose económico compartido por resumen, documento y PDF. */
@@ -121,6 +133,10 @@ export function quoteEconomicRows(result: ReturnType<typeof calculateQuote>) {
     { key: "cards", label: "Tarjetas", amount: result.cards, pending: result.cardsPending },
     { key: "extras", label: "Adicionales", amount: result.extraTotal, pending: Object.keys(result.errors).some((key) => key.endsWith("-amount")) },
     ...(result.discount > 0 || result.errors.discount ? [{ key: "discount", label: "Descuento", amount: -result.discount, pending: !!result.errors.discount }] : []),
+    ...(result.includeVat ? [
+      { key: "vat-base", label: result.isManualTotal ? "Base acordada sin IVA" : "Subtotal sin IVA", amount: result.vatBase, pending: !result.amountsReady },
+      { key: "vat", label: `IVA (${VAT_RATE} %)`, amount: result.vat, pending: !result.amountsReady },
+    ] : []),
   ];
 }
 
@@ -142,7 +158,11 @@ export function quoteMessage(quote: Quote, result = calculateQuote(quote)): stri
     `Cliente: ${quote.client.trim()}`, `Evento: ${quote.event.trim()}`,
     `Fecha: ${quoteDate(quote.date)}${quote.time ? ` - ${quote.time}` : ""}`,
     ...(result.guests !== undefined ? [`Invitados: ${result.guests}`] : []),
-    `${result.isManualTotal ? result.totalLabel : "Total"}: ${result.amountsReady ? money(result.total) : "Pendiente"}`,
+    ...(result.includeVat ? [
+      `${result.isManualTotal ? "Base acordada sin IVA" : "Subtotal sin IVA"}: ${result.amountsReady ? money(result.vatBase) : "Pendiente"}`,
+      `IVA (${VAT_RATE} %): ${result.amountsReady ? money(result.vat) : "Pendiente"}`,
+    ] : []),
+    `${result.isManualTotal || result.includeVat ? result.totalLabel : "Total"}: ${result.amountsReady ? money(result.total) : "Pendiente"}`,
     ...financingRows(result).map((row) => `${row.label}: ${row.value}`),
     "Podés revisar el detalle en el PDF del presupuesto.",
   ].join("\n");

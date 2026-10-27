@@ -72,7 +72,7 @@ export const galleryCollection: GalleryItem[] = [
   { src: "/images/bodas/Fiesta nocturna junto a la piscina.png", alt: "Celebración nocturna junto a la piscina iluminada con letras LOVE", category: "bodas", width: 1536, height: 1024 },
   { src: "/images/bodas/Fiesta vibrante bajo luces de escenario.png", alt: "Invitados bailando en la fiesta de boda bajo luces de escenario", category: "bodas", width: 1536, height: 1024 },
   { src: "/images/bodas/Lanzamiento del ramo en fiesta.png", alt: "La novia lanza el ramo ante los invitados durante la fiesta", category: "bodas", width: 1254, height: 1254 },
-  { src: "/images/bodas/Primer baile entre luces y niebla.png", alt: "Primer baile de los novios entre luces y niebla sobre la pista", category: "bodas", width: 1111, height: 1415 },
+  { src: "/images/bodas/primerbaile.png", alt: "Primer baile de los novios entre luces y niebla sobre la pista", category: "bodas", width: 1111, height: 1415 },
 
   // ── Fiestas de 15 ──────────────────────────────────────────────────
   { src: "/images/quince/entradaquincenera-192d60b00a59.jpg", alt: "Entrada de la quinceañera a su fiesta", category: "quince", width: 1365, height: 768 },

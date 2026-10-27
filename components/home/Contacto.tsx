@@ -8,7 +8,7 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 /**
  * 13 — CONTACTO. Ancla #contacto: formulario de consulta que abre
  * WhatsApp con el mensaje estructurado (lib/whatsapp.ts) + canales
- * confirmados (teléfono, email, redes verificadas, ubicación).
+ * confirmados (Hugo, Walter, email, redes verificadas, ubicación).
  */
 export default function Contacto() {
   const { street, postalCode, city, province, country } = site.address;
@@ -42,13 +42,11 @@ export default function Contacto() {
                 <div>
                   <dt className={dtClasses}>Contactos</dt>
                   <dd className={ddClasses}>
-                    <a
-                      href={`tel:${site.contacts.primary.phoneTel}`}
-                      className="block transition-colors hover:text-gold"
-                    >
-                      {site.contacts.primary.phoneDisplay} ·{" "}
-                      {site.contacts.primary.name}
-                    </a>
+                    {site.contacts.publicPhones.map((contact) => (
+                      <a key={contact.name} href={`tel:${contact.phoneTel}`} className="block transition-colors hover:text-gold">
+                        {contact.name} · {contact.phoneDisplay}
+                      </a>
+                    ))}
                     <a
                       href={`mailto:${site.email}`}
                       className="block transition-colors hover:text-gold"

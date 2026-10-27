@@ -100,11 +100,11 @@ export default function Entretenimiento() {
         </div>
 
         <Reveal>
-          <div className="mt-10 border border-gold/40 p-6 sm:p-7">
-            <h3 className="font-display text-2xl text-ink">Adicionales con costo extra</h3>
+          <div className="mt-14 border border-gold/40 bg-ivory-2 p-6 sm:p-10">
+            <h3 className="font-display text-3xl text-ink sm:text-4xl">Adicionales con costo extra</h3>
             <p className="mt-3 text-sm leading-relaxed text-ink/70">Se presupuestan por separado y no están incluidos en la Experiencia María Luisa.</p>
-            <ul className="mt-5 grid gap-3 text-sm text-ink/80 sm:grid-cols-2">
-              {adicionales.map((item) => <li key={item.id}>• {item.nombre}</li>)}
+            <ul className="mt-8 grid gap-4 text-base text-ink/80 sm:grid-cols-2 lg:grid-cols-3">
+              {adicionales.map((item) => <li key={item.id} className="flex min-h-24 items-center gap-4 border border-ink/10 bg-ivory p-5 sm:p-6"><Sparkles className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" /><span>{item.nombre}</span></li>)}
             </ul>
             <p className="mt-6 border-t border-ink/10 pt-5 text-sm leading-relaxed text-ink/70">{complementoPremium}</p>
           </div>

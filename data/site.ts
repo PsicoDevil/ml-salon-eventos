@@ -8,8 +8,8 @@
  * - Facebook: página oficial "ML Salón de Eventos" (id 100086731144154,
  *   "ML Salón de Eventos | San Fernando del Valle de Catamarca").
  *
- * El destinatario de WhatsApp sigue siendo el temporal de prueba.
- * Los teléfonos personales confirmados se muestran únicamente al pie.
+ * Las consultas por WhatsApp se dirigen al número definitivo de Hugo.
+ * Los teléfonos confirmados de Hugo y Walter se muestran en Contacto y al pie.
  */
 
 export const site = {
@@ -34,8 +34,8 @@ export const site = {
       { name: "Walter", phoneDisplay: "3834 653348", phoneTel: "3834653348" },
     ],
     primary: {
-      name: "Contacto temporal de prueba",
-      whatsappNumber: "5493834037325",
+      name: "Hugo",
+      whatsappNumber: "5493834781774",
       get phoneDisplay() {
         return `+${this.whatsappNumber}`;
       },

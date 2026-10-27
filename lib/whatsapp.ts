@@ -3,9 +3,8 @@ import { site } from "@/data/site";
 /**
  * Número de WhatsApp en formato internacional, solo dígitos (sin "+").
  *
- * NÚMERO TEMPORAL DE PRUEBA (549 383 403-7325): se usa durante las
- * pruebas del formulario y de los CTAs. Los teléfonos confirmados de
- * Hugo y Walter se muestran solo al pie; no sustituyen este destinatario.
+ * Número definitivo de Hugo, centralizado en data/site.ts para el
+ * formulario de consulta y los accesos directos de la web pública.
  */
 export const WHATSAPP_NUMBER = site.contacts.primary.whatsappNumber;
 
