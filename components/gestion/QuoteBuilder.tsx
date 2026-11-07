@@ -5,7 +5,7 @@ import Container from "@/components/ui/Container";
 import QuoteDocument from "@/components/gestion/QuoteDocument";
 import { planes } from "@/data/servicios";
 import { EVENT_TYPE_OPTIONS, buildRecipientlessWhatsAppUrl } from "@/lib/whatsapp";
-import { calculateQuote, cents, emptyQuote, financingRows, money, quoteEconomicRows, quoteMessage, type Quote } from "@/lib/presupuestos";
+import { calculateQuote, cents, emptyQuote, financingRows, INSTALLMENT_OPTIONS, money, quoteEconomicRows, quoteMessage, type Quote } from "@/lib/presupuestos";
 
 const fieldClass = "mt-2 block min-h-12 w-full min-w-0 border border-ink/25 bg-white/60 px-3 py-3 text-base text-ink outline-none focus:border-gold";
 const inputAmount = (value: number | undefined) => value === undefined ? "" : `${Math.floor(value / 100)}.${String(value % 100).padStart(2, "0")}`;
@@ -145,7 +145,7 @@ export default function QuoteBuilder() {
           </>}
         </Group>
         <Group title="5. Financiación" open>
-          <div className="min-w-0 sm:col-span-2"><label htmlFor="quote-installments" className="text-sm font-semibold">Forma de pago</label><select id="quote-installments" value={quote.installments} onChange={(e) => change("installments", e.target.value)} className={fieldClass} aria-invalid={attempted && !!result.errors.installments}><option value="none">Sin financiación</option><option value="3">3 cuotas</option><option value="6">6 cuotas</option><option value="12">12 cuotas</option></select><p className="mt-2 text-xs leading-relaxed text-ink/70">Las cuotas no modifican el total del presupuesto.</p></div>
+          <div className="min-w-0 sm:col-span-2"><label htmlFor="quote-installments" className="text-sm font-semibold">Forma de pago</label><select id="quote-installments" value={quote.installments} onChange={(e) => change("installments", e.target.value)} className={fieldClass} aria-invalid={attempted && !!result.errors.installments}><option value="none">Sin financiación</option>{INSTALLMENT_OPTIONS.map(count => <option key={count} value={count}>{count} {count === "1" ? "cuota" : "cuotas"}</option>)}</select><p className="mt-2 text-xs leading-relaxed text-ink/70">Las cuotas no modifican el total del presupuesto.</p></div>
           {quote.installments !== "none" && <>
             {field("financingAmount", "Importe a financiar", { numeric: true, required: true, full: true, value: quote.financingAmount ?? (result.amountsReady ? inputAmount(result.financingAmount) : ""), hint: quote.financingAmount === null ? "Vinculado al total final: incluye servicio, adicionales, descuento e IVA cuando corresponden. Se actualiza al modificar el presupuesto." : "Importe independiente del total; se conserva al editar el presupuesto. Las cuotas se calculan sobre este importe." })}
             <button id="quote-resetFinancing" type="button" disabled={!result.amountsReady} onClick={() => change("financingAmount", inputAmount(result.cards))} className="min-h-11 text-left text-sm underline underline-offset-4 disabled:opacity-50 sm:col-span-2">Usar total de tarjetas</button>

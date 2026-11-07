@@ -17,7 +17,7 @@ function load(relative) {
   new Function("require", "module", "exports", source)((id) => id.startsWith("@/") ? load(id.slice(2)) : requirePackage(id), record, record.exports);
   return record.exports;
 }
-const { emptyQuote, calculateQuote, cents, quoteEconomicRows, quoteMessage, financingRows, money, AGE_POLICY } = load("lib/presupuestos");
+const { emptyQuote, calculateQuote, cents, quoteEconomicRows, quoteMessage, financingRows, money, AGE_POLICY, INSTALLMENT_OPTIONS } = load("lib/presupuestos");
 const { quoteDocument } = load("lib/presupuesto-documento");
 const { buildRecipientlessWhatsAppUrl, buildWhatsAppUrl } = load("lib/whatsapp");
 const initial = emptyQuote();
@@ -38,7 +38,9 @@ assert.equal(b.valid, true); assert.equal(b.total, 17600000);
 assert.equal(quoteEconomicRows(b).reduce((sum, row) => sum + row.amount, 0), b.total);
 assert.equal(b.financing.regular, 5866667); assert.equal(b.financing.last, 5866666);
 assert.equal(b.financing.regular * 2 + b.financing.last, b.total);
-for (const installments of ["3", "6", "12"]) {
+const allInstallments = Array.from({ length: 12 }, (_, index) => String(index + 1));
+assert.deepEqual(INSTALLMENT_OPTIONS, allInstallments);
+for (const installments of allInstallments) {
   const result = calculateQuote({ ...complete, installments });
   assert.equal(result.total, b.total);
   assert.equal(result.financing.regular * (Number(installments) - 1) + result.financing.last, b.total);
@@ -64,7 +66,7 @@ for (const guests of ["-1", "1.5", "abc", "90071992547409910"]) assert.equal(cal
 assert.equal(calculateQuote({ ...sample, date: "2027-02-30" }).valid, false);
 assert.equal(calculateQuote({ ...sample, discount: "150001" }).valid, false);
 assert.equal(calculateQuote({ ...sample, cardsAmount: "90071992547409.90", serviceAmount: "100" }).amountsReady, false);
-assert.equal(calculateQuote({ ...sample, installments: "9" }).valid, false);
+for (const installments of ["0", "13", "1.5", "01", "abc", ""]) assert.equal(calculateQuote({ ...sample, installments }).valid, false);
 assert.equal(calculateQuote({ ...sample, extras: sample.extras.map((e, i) => i ? e : { ...e, amount: "" }) }).valid, true);
 // A/B: cálculo inicial, ajuste persistente y retorno explícito al automático.
 const automatic = { ...sample, cardsAmount: null, guests: "100", pricePerPerson: "120000" };
@@ -153,6 +155,11 @@ assert.equal(presentation.sections.find(s => s.title === "Resumen de importes").
 assert.deepEqual(presentation.sections.find(s => s.title === "Financiación").rows.map(({ label, value }) => ({ label, value })), financingRows(b));
 assert.ok(!plain.sections.some(s => s.title === "Financiación"));
 assert.deepEqual(presentation.sections.find(s => s.title === "Política de edades").rows.map(r => r.value), [...AGE_POLICY]);
+const baseServiceQuote = { ...complete, service: "servicio-salon" };
+assert(!quoteDocument(baseServiceQuote).sections.some(s => s.title === "Política de edades"));
+assert(!quoteDocument({ ...complete, service: "" }).sections.some(s => s.title === "Política de edades"));
+assert.equal(calculateQuote(baseServiceQuote).total, b.total);
+assert.deepEqual(quoteDocument({ ...baseServiceQuote, service: "experiencia-maria-luisa" }).sections.find(s => s.title === "Política de edades").rows.map(r => r.value), [...AGE_POLICY]);
 const serialized = JSON.stringify(presentation);
 assert.ok(serialized.includes("Pantalla para proyección (incluida)"));
 for (const removed of ["mapsUrl", "address", "Google Maps", "Bartolomé", "Precio unitario", "Tarjeta por persona", "Tarjetas a valor completo", "×"]) assert.ok(!serialized.includes(removed), removed);
@@ -191,7 +198,7 @@ assert.equal(calculateQuote(fullBudgetVariants[4]).total, 1118040000);
 assert.equal(calculateQuote(fullBudgetVariants[5]).total, 1105940000);
 assert.equal(calculateQuote(fullBudgetVariants[6]).total, 1210000000);
 assert.equal(calculateQuote(fullBudgetVariants[7]).total, 1089000000);
-for (const q of fullBudgetVariants) for (const installments of ["3", "6", "12"]) {
+for (const q of fullBudgetVariants) for (const installments of allInstallments) {
   const financed = { ...q, installments }, r = calculateQuote(financed);
   assert.equal(r.valid, true);
   assert.equal(r.financing.total, q.financingAmount === null ? r.total : cents(q.financingAmount));
@@ -235,6 +242,9 @@ assert.equal(calculateQuote(extraQuote).total, 15450000);
 const { planes, bebidas, catering } = load("data/servicios");
 assert(!planes[0].features.some(text => /vajilla|mantelería/i.test(text)));
 assert(planes[1].features.some(text => text.includes("Barra de tragos")));
+assert(planes[1].features.includes("Ornamentación"));
+assert(!JSON.stringify(quoteDocument(sample)).match(/Decoración premium/i));
+assert(quoteDocument(sample).sections.flatMap(s => s.rows).some(row => row.value.includes("Ornamentación")));
 assert.equal(planes[1].selectionName, "Servicio Completo");
 for (const item of ["Cazuelas", "Sándwiches", "Empanadas", "Chipá", "Jesuitas"]) assert(catering[0].detalle.toLowerCase().includes(item.toLowerCase()));
 assert(catering[1].detalle.includes("Lomo, pollo o lomo de cerdo"));
@@ -243,15 +253,19 @@ globalThis.document = { createElement: () => ({ getContext: () => ({ font: "", m
 try {
   const { createQuotePdf } = load("lib/presupuesto-pdf");
   assert.throws(() => createQuotePdf({ ...complete, serviceAmount: "" }));
-  for (const quote of [sample, complete, partial, automatic, withoutCards, manual, excludedService, taxable, taxedManual, extraQuote, ...fullBudgetVariants]) {
+  for (const source of [sample, complete, baseServiceQuote, partial, automatic, withoutCards, manual, excludedService, taxable, taxedManual, extraQuote, ...fullBudgetVariants]) for (const installments of source.installments === "none" ? ["none"] : allInstallments) {
+    const quote = { ...source, installments };
     const pdf = await createQuotePdf(quote).text();
     const decoded = pdf.replace(/\\([0-7]{3})/g, (_, oct) => String.fromCharCode(parseInt(oct, 8)));
     assert.ok(decoded.replace(/\s/g, " ").includes(money(calculateQuote(quote).total).replace(/\s/g, " ")));
     assert.equal(decoded.includes("Financiación"), quote.installments !== "none");
     for (const row of financingRows(calculateQuote(quote))) assert(decoded.replace(/\s/g, " ").includes(row.value.replace(/\s/g, " ")));
+    if (installments !== "none") assert.equal(quoteDocument(quote).sections.find(s => s.title === "Financiación").rows.find(row => row.label === "Cantidad de cuotas").value, installments);
+    assert.equal(decoded.includes("Ornamentación"), quote.service === "experiencia-maria-luisa"); assert(!/Decoración premium/i.test(decoded));
     for (const removed of ["/Subtype /Link", "/Annots", "Google Maps", "Bartolomé", "Precio unitario", "Tarjetas a valor completo"]) assert.ok(!decoded.includes(removed), removed);
-    assert.ok(decoded.includes("MARÍA LUISA")); assert.ok(decoded.includes("De 4 a 11 años"));
+    assert.ok(decoded.includes("MARÍA LUISA"));
+    for (const policy of AGE_POLICY) assert.equal(decoded.includes(policy), quote.service === "experiencia-maria-luisa");
     if (quote.includeVat) { assert.equal((decoded.match(/IVA \(21 %\)/g) ?? []).length, 1); assert(decoded.replace(/\s/g, " ").includes(money(calculateQuote(quote).vat).replace(/\s/g, " "))); }
   }
 } finally { if (originalDocument === undefined) delete globalThis.document; else globalThis.document = originalDocument; }
-console.log("Presupuestos: casos A–K, IVA del 21 % sin duplicación, ejemplo $11.059.400, financiación vinculada al total o editable, cuotas exactas 3/6/12, adicionales, contenido comercial, PDF y WhatsApp aprobados.");
+console.log("Presupuestos: casos A–K, IVA del 21 % sin duplicación, ejemplo $11.059.400, financiación vinculada al total o editable, cuotas exactas de 1 a 12, Ornamentación, adicionales, contenido comercial, PDF y WhatsApp aprobados.");

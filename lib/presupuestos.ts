@@ -31,6 +31,8 @@ export const AGE_POLICY = [
 /** Alícuota confirmada por el cliente; solo se aplica al activar la casilla. */
 export const VAT_RATE = 21;
 
+export const INSTALLMENT_OPTIONS = Array.from({ length: 12 }, (_, index) => String(index + 1));
+
 /** Todos los importes se calculan en centavos enteros. */
 export function cents(value: string): number | undefined {
   const normalized = value.trim().replace(",", ".");
@@ -80,7 +82,7 @@ export function calculateQuote(quote: Quote) {
     }
   }
   const service = quote.includeService ? amount("serviceAmount") : 0, discount = amount("discount", true);
-  if (!["none", "3", "6", "12"].includes(quote.installments)) errors.installments = "Elegí sin financiación, 3, 6 o 12 cuotas.";
+  if (quote.installments !== "none" && !INSTALLMENT_OPTIONS.includes(quote.installments)) errors.installments = "Elegí sin financiación o entre 1 y 12 cuotas.";
   const extras = quote.extras.flatMap((extra) => {
     if (!extra.amount.trim()) return [];
     const value = cents(extra.amount);
@@ -148,7 +150,7 @@ export function financingRows(result: ReturnType<typeof calculateQuote>) {
     { label: "Cantidad de cuotas", value: String(plan.count) },
     ...(plan.regular === plan.last
       ? [{ label: "Valor de cada cuota", value: money(plan.regular) }]
-      : [{ label: `Primeras ${plan.count - 1} cuotas (cada una)`, value: money(plan.regular) }, { label: "Última cuota", value: money(plan.last) }]),
+      : [{ label: plan.count === 2 ? "Primera cuota" : `Primeras ${plan.count - 1} cuotas (cada una)`, value: money(plan.regular) }, { label: "Última cuota", value: money(plan.last) }]),
   ];
 }
 

@@ -48,7 +48,7 @@ export const planes: Plan[] = [
       "Todo lo incluido en el Servicio Salón, más la gastronomía, la ambientación y el entretenimiento: el evento completo, de principio a fin.",
     features: [
       "Todo lo incluido en el Servicio Salón",
-      "Decoración premium",
+      "Ornamentación",
       "Vajilla completa",
       "Mantelería",
       "Catering tradicional completo: recepción, plato principal, postre y comida de cierre",
